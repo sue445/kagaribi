@@ -1,0 +1,78 @@
+module Steep
+  module AST
+    module Annotation
+      class Collection
+        attr_reader annotations: Array[Annotation::t]
+
+        attr_reader factory: Types::Factory
+
+        attr_reader context: RBS::Resolver::context
+
+        attr_reader var_type_annotations: Hash[Symbol, VarType]
+
+        attr_reader const_type_annotations: Hash[RBS::TypeName, ConstType]
+
+        attr_reader ivar_type_annotations: Hash[Symbol, IvarType]
+
+        attr_reader method_type_annotations: Hash[Symbol, MethodType?]
+
+        attr_reader block_type_annotation: BlockType?
+
+        attr_reader return_type_annotation: ReturnType?
+
+        attr_reader self_type_annotation: SelfType?
+
+        attr_reader instance_type_annotation: InstanceType?
+
+        attr_reader module_type_annotation: ModuleType?
+
+        attr_reader implement_module_annotation: Implements?
+
+        attr_reader dynamic_annotations: Array[Dynamic]
+
+        attr_reader break_type_annotation: BreakType?
+
+        def initialize: (annotations: Array[Annotation::t], factory: Types::Factory, context: RBS::Resolver::context) -> void
+
+        def absolute_type: (Types::t) -> Types::t
+                         | (Types::t?) -> Types::t?
+
+        def var_type: (lvar: Symbol) -> Types::t?
+                    | (ivar: Symbol) -> Types::t?
+                    | (const: RBS::TypeName) -> Types::t?
+
+        def method_type: (Symbol name) -> Interface::MethodType?
+
+        %a{pure} def block_type: () -> Types::t?
+
+        %a{pure} def return_type: () -> Types::t?
+
+        %a{pure} def self_type: () -> Types::t?
+
+        %a{pure} def instance_type: () -> Types::t?
+
+        %a{pure} def module_type: () -> Types::t?
+
+        %a{pure} def break_type: () -> Types::t?
+
+        def lvar_types: () -> Hash[Symbol, Types::t]
+
+        def ivar_types: () -> Hash[Symbol, Types::t]
+
+        def const_types: () -> Hash[RBS::TypeName, Types::t]
+
+        def instance_dynamics: () -> Array[Symbol]
+
+        def module_dynamics: () -> Array[Symbol]
+
+        def merge_block_annotations: (Collection annotations) -> Collection
+
+        def any?: () { (Annotation::t) -> boolish } -> bool
+
+        def size: () -> Integer
+
+        def include?: (Annotation::t obj) -> bool
+      end
+    end
+  end
+end

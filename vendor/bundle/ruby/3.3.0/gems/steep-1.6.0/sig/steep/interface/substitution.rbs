@@ -1,0 +1,49 @@
+module Steep
+  module Interface
+    class Substitution
+      class InvalidSubstitutionError < StandardError
+        attr_reader vars_size: Integer
+
+        attr_reader types_size: Integer
+
+        def initialize: (vars_size: Integer, types_size: Integer) -> void
+      end
+
+      attr_reader dictionary: Hash[Symbol, AST::Types::t]
+
+      attr_reader instance_type: AST::Types::t?
+
+      attr_reader module_type: AST::Types::t?
+
+      attr_reader self_type: AST::Types::t?
+
+      def initialize: (dictionary: Hash[Symbol, AST::Types::t], instance_type: AST::Types::t?, module_type: AST::Types::t?, self_type: AST::Types::t?) -> void
+
+      def self.empty: () -> instance
+
+      def empty?: () -> bool
+
+      def domain: () -> Set[AST::Types::variable]
+
+      def to_s: () -> ::String
+
+      def []: (Symbol key) -> AST::Types::t
+
+      def key?: (Symbol var) -> bool
+
+      def self.build: (Array[Symbol] vars, ?Array[AST::Types::t]? types, ?instance_type: AST::Types::t?, ?module_type: AST::Types::t?, ?self_type: AST::Types::t?) -> Substitution
+
+      def except: (Array[Symbol] vars) -> Substitution
+
+      def except!: (Array[Symbol] vars) -> self
+
+      def merge!: (Substitution s, ?overwrite: bool) -> self
+
+      def merge: (Substitution s) -> Substitution
+
+      def apply?: (AST::Types::t) -> bool
+
+      def add!: (Symbol v, AST::Types::t ty) -> self
+    end
+  end
+end

@@ -1,0 +1,175 @@
+module Steep
+  module Subtyping
+    module Result
+      type t = Skip | Expand | All | Any | Success | Failure
+
+      class Base
+        attr_reader relation: Relation[untyped]
+
+        def initialize: (Relation[untyped] relation) -> void
+
+        def failure?: () -> bool
+
+        def success?: () -> bool
+
+        def then: () { (self) -> void } -> self
+
+        def else: () { (self) -> void } -> self
+
+        def failure_path: (?Array[t] path) -> Array[t]?
+      end
+
+      class Skip < Base
+        def success?: () -> false
+
+        def failure?: () -> false
+
+        def failure_path: (?untyped path) -> untyped
+      end
+
+      class Expand < Base
+        attr_reader child: t
+
+        def initialize: (Relation[untyped] relation) { (Relation[untyped]) -> t } -> void
+
+        def success?: () -> bool
+
+        def failure_path: (?Array[t] path) -> Array[t]?
+      end
+
+      class All < Base
+        attr_reader branches: Array[t]
+
+        def initialize: (Relation[untyped] relation) -> void
+
+        @failure: bool
+
+        # Returns `false` if no future `#add` changes the result.
+        def add: [T < Relation::_Subject] (*Relation[T] relations) { (Relation[T]) -> t? } -> bool
+
+        # Returns `false` if no future `#add` changes the result.
+        def add_result: (t?) -> bool
+
+        def success?: () -> bool
+
+        def failure?: () -> bool
+
+        def failure_path: (?Array[t] path) -> Array[t]?
+      end
+
+      class Any < Base
+        attr_reader branches: Array[t]
+
+        def initialize: (Relation[untyped] relation) -> void
+
+        @success: bool
+
+        # Returns `false` if no future `#add` changes the result.
+        def add: [T < Object] (*Relation[T] relations) { (Relation[T]) -> t } -> bool
+
+        def success?: () -> bool
+
+        def failure_path: (?Array[t] path) -> Array[t]?
+      end
+
+      class Success < Base
+        def success?: () -> true
+
+        def failure_path: (?Array[t] path) -> Array[t]?
+      end
+
+      class Failure < Base
+        type error = MethodMissingError | BlockMismatchError | ParameterMismatchError
+                   | UnknownPairError | PolyMethodSubtyping | UnsatisfiedConstraints
+                   | SelfBindingMismatch
+
+        class MethodMissingError
+          attr_reader name: untyped
+
+          def initialize: (name: untyped) -> void
+
+          def message: () -> ::String
+        end
+
+        class BlockMismatchError
+          attr_reader name: untyped
+
+          def initialize: (name: untyped) -> void
+
+          def message: () -> ::String
+        end
+
+        class ParameterMismatchError
+          attr_reader name: untyped
+
+          def initialize: (name: untyped) -> void
+
+          def message: () -> ::String
+        end
+
+        class UnknownPairError
+          attr_reader relation: untyped
+
+          def initialize: (relation: untyped) -> void
+
+          def message: () -> ::String
+        end
+
+        class PolyMethodSubtyping
+          attr_reader name: untyped
+
+          def initialize: (name: untyped) -> void
+
+          def message: () -> ::String
+        end
+
+        class UnsatisfiedConstraints
+          attr_reader error: untyped
+
+          def initialize: (untyped error) -> void
+
+          def var: () -> untyped
+
+          def sub_type: () -> untyped
+
+          def super_type: () -> untyped
+
+          def result: () -> untyped
+
+          def message: () -> ::String
+        end
+
+        class SelfBindingMismatch
+          def initialize: () -> void
+
+          def message: () -> String
+        end
+
+        attr_reader error: error
+
+        def initialize: (Relation[untyped] relation, error error) -> void
+
+        def success?: () -> false
+
+        def failure_path: (?Array[t] path) -> Array[t]?
+      end
+
+      module Helper
+        def Skip: (Relation[untyped] relation) -> Skip
+
+        def Expand: [T < Object] (Relation[T] relation) { (Relation[T]) -> t } -> Expand
+
+        def All: (Relation[untyped] relation) { (All) -> void } -> All
+
+        def Any: (Relation[untyped] relation) { (Any) -> void } -> Any
+
+        def Success: (Relation[untyped] relation) -> Success
+
+        alias success Success
+
+        def Failure: (Relation[untyped] relation, Failure::error) -> Failure
+                   | (Relation[untyped]) { () -> Failure::error } -> Failure
+      end
+    end
+  end
+end

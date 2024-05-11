@@ -1,0 +1,13 @@
+---
+- file: unexpected.rbs
+  diagnostics:
+  - range:
+      start:
+        line: 2
+        character: 17
+      end:
+        line: 2
+        character: 24
+    severity: ERROR
+    message: Cannot find type `String1`
+    code: RBS::UnknownTypeName

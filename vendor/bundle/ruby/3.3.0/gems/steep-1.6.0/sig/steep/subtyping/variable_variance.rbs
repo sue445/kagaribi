@@ -1,0 +1,25 @@
+module Steep
+  module Subtyping
+    class VariableVariance
+      attr_reader covariants: Set[Symbol]
+
+      attr_reader contravariants: Set[Symbol]
+
+      def initialize: (covariants: Set[Symbol], contravariants: Set[Symbol]) -> void
+
+      def covariant?: (Symbol var) -> bool
+
+      def contravariant?: (Symbol var) -> bool
+
+      def invariant?: (Symbol var) -> bool
+
+      def self.from_type: (AST::Types::t) -> VariableVariance
+
+      def self.from_method_type: (Interface::MethodType method_type) -> VariableVariance
+
+      def self.add_params: (Interface::Function::Params params, block: bool, covariants: Set[Symbol], contravariants: Set[Symbol]) -> void
+
+      def self.add_type: (AST::Types::t `type`, variance: :covariant | :contravariant | :invariant, covariants: Set[Symbol], contravariants: Set[Symbol]) -> void
+    end
+  end
+end

@@ -1,0 +1,27 @@
+current directory: /home/runner/work/kagaribi/kagaribi/vendor/bundle/ruby/3.3.0/gems/rbs-3.4.4/ext/rbs_extension
+/opt/hostedtoolcache/Ruby/3.3.1/x64/bin/ruby extconf.rb
+checking for whether -std=gnu99 is accepted as CFLAGS... yes
+creating Makefile
+
+current directory: /home/runner/work/kagaribi/kagaribi/vendor/bundle/ruby/3.3.0/gems/rbs-3.4.4/ext/rbs_extension
+make DESTDIR\= sitearchdir\=./.gem.20240511-1600-xq17d8 sitelibdir\=./.gem.20240511-1600-xq17d8 clean
+
+current directory: /home/runner/work/kagaribi/kagaribi/vendor/bundle/ruby/3.3.0/gems/rbs-3.4.4/ext/rbs_extension
+make DESTDIR\= sitearchdir\=./.gem.20240511-1600-xq17d8 sitelibdir\=./.gem.20240511-1600-xq17d8
+compiling constants.c
+compiling lexer.c
+compiling lexstate.c
+compiling location.c
+compiling main.c
+compiling parser.c
+compiling parserstate.c
+compiling ruby_objs.c
+compiling unescape.c
+linking shared-object rbs_extension.so
+
+current directory: /home/runner/work/kagaribi/kagaribi/vendor/bundle/ruby/3.3.0/gems/rbs-3.4.4/ext/rbs_extension
+make DESTDIR\= sitearchdir\=./.gem.20240511-1600-xq17d8 sitelibdir\=./.gem.20240511-1600-xq17d8 install
+/usr/bin/install -c -m 0755 rbs_extension.so ./.gem.20240511-1600-xq17d8
+
+current directory: /home/runner/work/kagaribi/kagaribi/vendor/bundle/ruby/3.3.0/gems/rbs-3.4.4/ext/rbs_extension
+make DESTDIR\= sitearchdir\=./.gem.20240511-1600-xq17d8 sitelibdir\=./.gem.20240511-1600-xq17d8 clean

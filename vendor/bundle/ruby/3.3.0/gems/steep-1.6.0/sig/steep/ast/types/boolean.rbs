@@ -1,0 +1,31 @@
+module Steep
+  module AST
+    module Types
+      class Boolean
+        attr_reader location: untyped
+
+        def initialize: (?location: untyped?) -> void
+
+        def ==: (untyped other) -> bool
+
+        def hash: () -> Integer
+
+        alias eql? ==
+
+        def subst: (Interface::Substitution) -> Boolean
+
+        def to_s: () -> String
+
+        include Helper::NoFreeVariables
+
+        include Helper::NoChild
+
+        def level: () -> Array[Integer]
+
+        def with_location: (untyped new_location) -> Boolean
+
+        def back_type: () -> t
+      end
+    end
+  end
+end

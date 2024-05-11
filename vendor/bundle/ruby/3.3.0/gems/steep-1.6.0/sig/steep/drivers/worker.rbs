@@ -1,0 +1,29 @@
+module Steep
+  module Drivers
+    class Worker
+      attr_reader stdout: IO
+
+      attr_reader stderr: IO
+
+      attr_reader stdin: IO
+
+      attr_accessor worker_type: Symbol
+
+      attr_accessor worker_name: String
+
+      attr_accessor delay_shutdown: bool
+
+      attr_accessor max_index: Integer
+
+      attr_accessor index: Integer
+
+      attr_accessor commandline_args: Array[String]
+
+      include Utils::DriverHelper
+
+      def initialize: (stdout: IO, stderr: IO, stdin: IO) -> void
+
+      def run: () -> Integer
+    end
+  end
+end

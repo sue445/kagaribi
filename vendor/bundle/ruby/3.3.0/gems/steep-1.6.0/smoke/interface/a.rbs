@@ -1,0 +1,12 @@
+class A
+  def foo: -> _Foo
+  def hello: -> void
+
+  class Object
+    def object?: -> bool
+  end
+
+  interface _Foo
+    def foo: -> Object
+  end
+end

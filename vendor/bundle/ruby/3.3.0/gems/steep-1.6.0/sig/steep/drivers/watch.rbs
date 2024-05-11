@@ -1,0 +1,27 @@
+module Steep
+  module Drivers
+    class Watch
+      attr_reader dirs: Array[Pathname]
+
+      attr_reader stdout: IO
+
+      attr_reader stderr: IO
+
+      attr_reader queue: Thread::Queue
+
+      attr_accessor severity_level: Diagnostic::LSPFormatter::severity
+
+      attr_reader jobs_option: Utils::JobsOption
+
+      include Utils::DriverHelper
+
+      module LSP = LanguageServer::Protocol
+
+      def initialize: (stdout: IO, stderr: IO) -> void
+
+      def watching?: (Pathname changed_path, files: Set[Pathname], dirs: Set[Pathname]) -> bool
+
+      def run: () -> Integer
+    end
+  end
+end

@@ -1,0 +1,22 @@
+module Steep
+  module AST
+    module Types
+      module Helper
+        module ChildrenLevel
+          def level_of_children: (Array[t] children) -> Array[Integer]
+        end
+
+        module NoFreeVariables
+          @fvs: Set[variable]
+
+          def free_variables: () -> Set[variable]
+        end
+
+        module NoChild
+          def each_child: () { (t) -> void } -> void
+                        | () -> Enumerator[t, void]
+        end
+      end
+    end
+  end
+end

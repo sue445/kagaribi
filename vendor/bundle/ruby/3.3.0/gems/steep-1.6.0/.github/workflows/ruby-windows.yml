@@ -1,0 +1,34 @@
+name: Run test on Windows
+
+on:
+  push:
+    branches:
+      - master
+  pull_request: {}
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        ruby_version:
+        - "3.0"
+        - "3.1"
+        - "3.2"
+        task:
+        - test
+        # - test:output  Ignored because the order of diagnostics changes somehow
+        - build
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby_version }}
+    - name: Run test
+      run: |
+        git config --global --add safe.directory /__w/steep/steep
+        ruby -v
+        gem install bundler
+        bundle install --jobs 4 --retry 3
+        bin/setup
+        bundle exec rake ${{matrix.task}}

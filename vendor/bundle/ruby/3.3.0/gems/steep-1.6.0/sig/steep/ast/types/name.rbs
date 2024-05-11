@@ -1,0 +1,80 @@
+module Steep
+  module AST
+    module Types
+      # Types with names
+      #
+      module Name
+        class Base
+          attr_reader location: untyped
+
+          attr_reader name: RBS::TypeName
+
+          def initialize: (name: RBS::TypeName, ?location: untyped?) -> void
+
+          include Helper::NoFreeVariables
+
+          def subst: (Steep::Interface::Substitution s) -> self
+
+          def level: () -> Array[Integer]
+
+          def map_type: () { (t) -> t } -> self
+        end
+
+        class Applying < Base
+          attr_reader args: Array[t]
+
+          def initialize: (name: RBS::TypeName, args: Array[t], ?location: untyped?) -> void
+
+          def ==: (untyped other) -> bool
+
+          alias eql? ==
+
+          @hash: Integer
+          def hash: () -> Integer
+
+          def to_s: () -> ::String
+
+          def with_location: (untyped new_location) -> self
+
+          def subst: (Steep::Interface::Substitution s) -> self
+
+          @fvs: Set[variable]
+          def free_variables: () -> Set[variable]
+
+          def each_child: () { (t) -> void } -> void
+                        | () -> Enumerator[t, void]
+
+          include Helper::ChildrenLevel
+
+          def level: () -> Array[Integer]
+
+          def map_type: () { (t) -> t } -> self
+        end
+
+        class Singleton < Base
+          def ==: (untyped other) -> bool
+
+          alias eql? ==
+
+          def hash: () -> Integer
+
+          def to_s: () -> ::String
+
+          def with_location: (untyped new_location) -> Singleton
+
+          include Helper::NoChild
+        end
+
+        class Instance < Applying
+          def to_module: () -> Singleton
+        end
+
+        class Interface < Applying
+        end
+
+        class Alias < Applying
+        end
+      end
+    end
+  end
+end

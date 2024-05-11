@@ -1,0 +1,567 @@
+use Steep::AST::Types
+
+module Steep
+  class TypeConstruction
+    class Pair
+      attr_reader type: AST::Types::t
+
+      attr_reader constr: TypeConstruction
+
+      def initialize: (type: AST::Types::t, constr: TypeConstruction) -> void
+
+      def with: (?type: AST::Types::t, ?constr: TypeConstruction) -> Pair
+
+      def +: (Pair other) -> Pair
+
+      def context: () -> TypeInference::Context
+
+      def to_ary: () -> [AST::Types::t, TypeConstruction, TypeInference::Context]
+    end
+
+    SPECIAL_LVAR_NAMES: Set[Symbol]
+
+    include NodeHelper
+
+    include ModuleHelper
+
+    attr_reader checker: Subtyping::Check
+
+    attr_reader source: Source
+
+    attr_reader annotations: AST::Annotation::Collection
+
+    attr_reader typing: Typing
+
+    attr_reader context: TypeInference::Context
+
+    %a{pure} def module_context: () -> TypeInference::Context::ModuleContext
+
+    # `method_context` is `nil` outside of any `def` syntax
+    #
+    %a{pure} def method_context: () -> TypeInference::Context::MethodContext?
+
+    def method_context!: () -> TypeInference::Context::MethodContext
+
+    %a{pure} def block_context: () -> TypeInference::Context::BlockContext?
+
+    def block_context!: () -> TypeInference::Context::BlockContext
+
+    %a{pure} def break_context: () -> TypeInference::Context::BreakContext?
+
+    %a{pure} def self_type: () -> AST::Types::t
+
+    %a{pure} def variable_context: () -> TypeInference::Context::TypeVariableContext
+
+    def initialize: (checker: untyped, source: untyped, annotations: untyped, typing: untyped, context: untyped) -> void
+
+    def with_new_typing: (Typing typing) -> TypeConstruction
+
+    def with_updated_context: (?type_env: TypeInference::TypeEnv) -> TypeConstruction
+
+    def with: (?annotations: untyped, ?context: TypeInference::Context, ?typing: untyped) -> TypeConstruction
+
+    def update_context: () { (TypeInference::Context) -> TypeInference::Context } -> TypeConstruction
+
+    def update_type_env: () { (TypeInference::TypeEnv) -> TypeInference::TypeEnv } -> TypeConstruction
+
+    def check_relation: (sub_type: AST::Types::t, super_type: AST::Types::t, ?constraints: Subtyping::Constraints) -> Subtyping::Result::t
+
+    # This is a variation of `#check_relation` method.
+    # It checks if given subtyping relation `sub_type <: super_type` holds or not, and returns truthy when *doesn't* hold.
+    #
+    # * Returns `nil` if holds
+    # * Returns subclass of `Result::Base` if the subtyping doesn't hold
+    #
+    # This allow you writing a subtyping check as:
+    #
+    # ```ruby
+    # if relation = no_subtyping?(sub_type: type1, super_type: type2)
+    #   # Implement error reporting
+    # end
+    # ```
+    #
+    def no_subtyping?: (sub_type: AST::Types::t, super_type: AST::Types::t, ?constraints: Subtyping::Constraints) -> Subtyping::Result::Base?
+
+    def for_new_method: (Symbol method_name, Parser::AST::Node node, args: Array[Parser::AST::Node], self_type: untyped, definition: RBS::Definition?) -> TypeConstruction
+
+    def with_method_constr: (untyped method_name, untyped node, args: untyped, self_type: untyped, definition: untyped) { (untyped) -> untyped } -> untyped
+
+    def implement_module: (module_name: RBS::TypeName, annotations: AST::Annotation::Collection, ?super_name: RBS::TypeName?) -> AST::Annotation::Implements::Module?
+
+    def default_module_context: (AST::Annotation::Implements::Module? implement_module_name, nesting: RBS::Resolver::context) -> TypeInference::Context::ModuleContext
+
+    def for_module: (untyped node, untyped new_module_name) -> untyped
+
+    def with_module_constr: (untyped node, untyped module_name) { (untyped) -> untyped } -> untyped
+
+    def for_class: (untyped node, untyped new_class_name, untyped super_class_name) -> untyped
+
+    def with_class_constr: (untyped node, untyped new_class_name, untyped super_class_name) { (untyped) -> untyped } -> untyped
+
+    def with_sclass_constr: [A] (Parser::AST::Node node, AST::Types::t `type`) { (TypeConstruction?) -> A } -> A
+
+    # Returns one-level _meta_ type from given type
+    #
+    # * Returns singleton type of the type name if instance type is given
+    # * Returns `::Class` if singleton type is given
+    # * Returns `nil` otherwise
+    #
+    def meta_type: (AST::Types::t) -> AST::Types::t?
+
+    def for_sclass: (Parser::AST::Node node, AST::Types::t `type`) -> TypeConstruction?
+
+    def for_branch: (Parser::AST::Node node, ?break_context: TypeInference::Context::BreakContext?) -> TypeConstruction
+
+    def add_typing: (Parser::AST::Node node, type: AST::Types::t, ?constr: TypeConstruction) -> Pair
+
+    def add_call: (untyped call) -> untyped
+
+    def synthesize: (Parser::AST::Node node, ?hint: AST::Types::t?, ?condition: bool) -> Pair
+
+    def check: (Parser::AST::Node node, AST::Types::t `type`, ?constraints: Subtyping::Constraints) { (AST::Types::t, AST::Types::t, Subtyping::Result::t) -> void } -> Pair
+
+    def masgn_lhs?: (untyped lhs) -> untyped
+
+    def lvasgn: (Parser::AST::Node node, AST::Types::t) -> Pair
+
+    def ivasgn: (Parser::AST::Node node, AST::Types::t rhs_type) -> Pair
+
+    def gvasgn: (Parser::AST::Node node, AST::Types::t rhs_type) -> Pair
+
+    def type_masgn: (Parser::AST::Node node) -> Pair
+
+    def type_masgn_type: (Parser::AST::Node mlhs_node, AST::Types::t? rhs_type, masgn: TypeInference::MultipleAssignment, optional: bool) -> TypeConstruction?
+
+    def constant_typename: (Parser::AST::Node parent, Symbol name) -> RBS::TypeName?
+
+    # Synthesize a constant declaration -- :cdecl, :class, or :module
+    #
+    # * `node` is the node that references a constant
+    # * `parent_node` is the parent (namespace) of a constant reference
+    # * `constant_name` is the name of constant
+    #
+    # Yields a block that is expected to add an error, or it reports Diagnostic::Ruby::UnknownConstant if not given.
+    #
+    # Returns a tuple of
+    #
+    # * The type of the constant
+    # * TypeConstruction instance after the evaluation
+    # * The full name of the constant
+    #
+    def synthesize_constant_decl: (Parser::AST::Node? node, Parser::AST::Node? parent_node, Symbol constant_name) ?{ () -> void } -> [AST::Types::t, TypeConstruction, RBS::TypeName?]
+
+    # Synthesize a constant reference
+    #
+    # * `node` is the node that references a constant
+    # * `parent_node` is the parent (namespace) of a constant reference
+    # * `constant_name` is the name of constant
+    #
+    # Yields a block that is expected to add an error, or it reports Diagnostic::Ruby::UnknownConstant if not given.
+    #
+    # Returns a tuple of
+    #
+    # * The type of the constant
+    # * TypeConstruction instance after the evaluation
+    # * The full name of the constant
+    #
+    def synthesize_constant: (Parser::AST::Node? node, Parser::AST::Node? parent_node, Symbol constant_name) ?{ () -> void } -> [AST::Types::t, TypeConstruction, RBS::TypeName?]
+
+    # Returns a proc type if given type is a two clause union with the proc type and `nil`
+    #
+    def optional_proc?: (AST::Types::t) -> AST::Types::Proc?
+
+    def type_lambda: (Parser::AST::Node & Parser::AST::_BlockNode node, params_node: Parser::AST::Node, body_node: Parser::AST::Node?, type_hint: AST::Types::t?) -> Pair
+
+    def synthesize_children: (Parser::AST::Node node, ?skips: Array[Parser::AST::Node?]) -> TypeConstruction
+
+    # Synthesize `:send`, `:csend`, `:block`, and `:numblock` node
+    #
+    def synthesize_sendish: (Parser::AST::Node sendish, hint: AST::Types::t?, tapp: AST::Node::TypeApplication?) -> Pair
+
+    # The entrypoint to type check method calls, which may be with blocks
+    #
+    # * `send_node` can be `:send`, `:super`, or `:zsuper`
+    # * `node` can be `:send`, `:block`, `:super`, or `:zsuper`
+    # * Specify `unwrap` keyword `true` to type check safe-navigation-operator, that unwraps the type of reeiver automatically and make the return type optional
+    #
+    def type_send: (
+      Parser::AST::Node node,
+      send_node: Parser::AST::Node,
+      block_params: Parser::AST::Node?,
+      block_body: Parser::AST::Node?,
+      ?unwrap: bool,
+      tapp: AST::Node::TypeApplication?,
+      hint: Types::t?
+    ) -> Pair
+
+    # The second step to type check method calls, which handles type refinements on *pure* calls
+    #
+    # * It receives `interface` keyword, that is the shape of the receiver type
+    # * It receives `arguments` keyword, that is an array of argument nodes
+    #
+    def type_send_interface: (
+      Parser::AST::Node node,
+      interface: Interface::Shape,
+      receiver: Parser::AST::Node?,
+      receiver_type: AST::Types::t,
+      method_name: Symbol,
+      arguments: Array[Parser::AST::Node],
+      block_params: Parser::AST::Node?,
+      block_body: Parser::AST::Node?,
+      tapp: AST::Node::TypeApplication?,
+      hint: Types::t?
+    ) -> Pair
+
+    # The third step to type check method calls, which tries all of the overlods defined for the method
+    #
+    # * It receives the `Shape::Entry` object that represents an method entry of a shape
+    # * Returns `nil` when it cannot find suitable one from more than one overloads
+    #   * It means the type checker can report only *no suitable overlod detected for this args* 😫
+    #
+    def type_method_call: (
+      Parser::AST::Node node,
+      method_name: Symbol,
+      receiver_type: AST::Types::t,
+      method: Interface::Shape::Entry,
+      arguments: Array[Parser::AST::Node],
+      block_params: Parser::AST::Node?,
+      block_body: Parser::AST::Node?,
+      tapp: AST::Node::TypeApplication?,
+      hint: Types::t?
+    ) -> [TypeInference::MethodCall::t, TypeConstruction]?
+
+    # The core to type check method calls, which implements type checking arguments including blocks and type inference
+    #
+    # * `receiver_type` and `method_name` are only used for error reporting
+    #
+    def try_method_type: (
+      Parser::AST::Node node,
+      receiver_type: AST::Types::t,
+      method_name: Symbol,
+      method_type: Interface::MethodType,
+      arguments: Array[Parser::AST::Node],
+      block_params: Parser::AST::Node?,
+      block_body: Parser::AST::Node?,
+      tapp: AST::Node::TypeApplication?,
+      hint: Types::t?
+    ) -> [TypeInference::MethodCall::t, TypeConstruction]
+
+    # Extra step to type check method calls, which implements custom typing rules based on the methods
+    #
+    # * Returns `nil` if the `method_type` object is not associated to a method with custom typing rules
+    #
+    def try_special_method: (
+      Parser::AST::Node node,
+      receiver_type: AST::Types::t,
+      method_name: Symbol,
+      method_type: Interface::MethodType,
+      arguments: Array[Parser::AST::Node],
+      block_params: Parser::AST::Node?,
+      block_body: Parser::AST::Node?,
+      hint: Types::t?
+    ) -> [TypeInference::MethodCall::t, TypeConstruction]?
+
+    def builder_config: () -> Interface::Builder::Config
+
+    # Calculates the shape (interface) of an type
+    #
+    # * Returns `nil` if the type cannot be translated to a shape
+    # * Returns Shape::Entry instead of Shape when `method_name` is given
+    #
+    def calculate_interface: (AST::Types::t `type`, private: bool) -> Interface::Shape?
+                           | (AST::Types::t `type`, Symbol method_name, private: bool) -> Interface::Shape::Entry?
+
+    def expand_self: (AST::Types::t `type`) -> AST::Types::t
+
+    SPECIAL_METHOD_NAMES: Hash[Symbol, Set[method_name]]
+
+    KNOWN_PURE_METHODS: Set[method_name]
+
+    def inspect: () -> ::String
+
+    def with_child_typing: [A] (range: Range[Integer]) { (TypeConstruction) -> A } -> A
+                         | (range: Range[Integer]) -> TypeConstruction
+
+    # Bypass :splat and :kwsplat
+    def bypass_splat: (untyped node) { (untyped) -> untyped } -> untyped
+
+    # Solve a constraint in the block and return a substitution if succeeds.
+    #
+    # * When the constraint has a solution, `#apply_solution` returns a tuple of substituted `MethodType`, `true`, and the substitution.
+    # * When the constraint doesn't have a solution, `#apply_solution` returns a tuple of the original `MethodType`, `false`, and empty substitution.
+    #
+    def apply_solution: (
+        Array[Diagnostic::Ruby::Base] errors,
+        node: Parser::AST::Node,
+        method_type: Interface::MethodType
+      ) {
+        () -> Interface::Substitution
+      } -> [Interface::MethodType, bool, Interface::Substitution]
+
+    def eliminate_vars: (untyped `type`, untyped variables, ?to: untyped) -> untyped
+
+    # Type check arguments
+    #
+    # * Receives the `method_name` of a method that is being called
+    # * `method_name` is `nil` if it type checks arguments of block or proc
+    #
+    def type_check_args: (
+      Symbol | nil,
+      TypeInference::SendArgs,
+      Subtyping::Constraints,
+      Array[Diagnostic::Ruby::Base]
+    ) -> TypeConstruction
+
+    # Type check arguments without known method type
+    #
+    # This handles `:splat` nodes and `:kwargs` node that appears as an argument.
+    #
+    def type_check_untyped_args: (Array[Parser::AST::Node] arguments) -> TypeConstruction
+
+    def type_check_argument: (Parser::AST::Node node, type: AST::Types::t, constraints: Subtyping::Constraints, errors: Array[Diagnostic::Ruby::Base], ?report_node: Parser::AST::Node) -> Pair
+
+    def type_block_without_hint: (node: Parser::AST::Node & Parser::AST::_BlockNode, block_annotations: AST::Annotation::Collection, block_params: TypeInference::BlockParams?, block_body: Parser::AST::Node?) ?{ (Diagnostic::Ruby::Base) -> void } -> void
+
+    def set_up_block_mlhs_params_env: (
+      Parser::AST::Node mlhs_node,
+      AST::Types::t type,
+      Hash[Symbol, AST::Types::t]
+    ) { (Parser::AST::Node error_mlhs_node, AST::Types::t type) -> void } -> void
+
+    # Returns a Pair of
+    #
+    # * TypeConstruction to type check the block, and
+    # * Set of local variable names to unpin after type checking the block
+    #
+    # ### Arguments
+    #
+    # * `body_node` Block body node
+    # * `block_params` BlockParams object
+    # * `block_param_hint` Type hint of the block parameters
+    # * `block_type_hint` Type hint of the block body
+    # * `block_block_hint` Type hint of the block that will be given to the block
+    # * `block_annotations` Annotations given to the block body
+    # * `node_type_hint` Type hint of block call node
+    #
+    def for_block: (
+        Parser::AST::Node? body_node,
+        block_params: TypeInference::BlockParams,
+        block_param_hint: Interface::Function::Params?,
+        block_type_hint: AST::Types::t?,
+        block_block_hint: Interface::Block?,
+        block_annotations: AST::Annotation::Collection,
+        node_type_hint: AST::Types::t?,
+        block_self_hint: AST::Types::t?
+      ) -> TypeConstruction
+
+    # Synthesize the block body and returns the type of the body
+    #
+    # The constructor can be safely discarded because it cannot change anything outer than block.
+    #
+    def synthesize_block: (
+      node: Parser::AST::Node & Parser::AST::_BlockNode,
+      block_type_hint: AST::Types::t?,
+      block_body: Parser::AST::Node?
+    ) -> AST::Types::t
+
+    %a{pure} def nesting: () -> RBS::Resolver::context
+
+    def absolute_name: (untyped name) -> untyped
+
+    def union_type: (*AST::Types::t? types) -> AST::Types::t
+
+    # Returns union type of given types
+    #
+    # If one of the types is a subtype of another type, the _subtype_ will be ignored.
+    #
+    # ```ruby
+    # union_type(`String`, `Object`)   # => `Object`
+    # union_type(`String`, `Integer`)   # => `String | Integer`
+    # ```
+    #
+    def union_type_unify: (*AST::Types::t types) -> AST::Types::t
+
+    # Translate a union of tuple types to a tuple of union types
+    #
+    # * ([A, B] | [C, D, E]) => [A | C, B | D, E?]
+    #
+    # Returns `nil` if the translation cannot apply.
+    #
+    def union_of_tuple_to_tuple_of_union: (AST::Types::Union) -> AST::Types::Tuple?
+
+    def validate_method_definitions: (Parser::AST::Node node, AST::Annotation::Implements::Module module_name) -> void
+
+    def fallback_to_any: (Parser::AST::Node node) ?{ () -> Diagnostic::Ruby::Base } -> Pair
+
+    # Return `true` if `node` is `self.class`
+    def self_class?: (Parser::AST::Node node) -> bool
+
+    # Returns `true` if the given `node` is a `class` or `module` declaration that only contains module/class definitions
+    #
+    def namespace_module?: (Parser::AST::Node node) -> bool
+
+    def type_any_rec: (Parser::AST::Node node) -> Pair
+
+    def unwrap: (AST::Types::t `type`) -> AST::Types::t
+
+    # Returns `nil` if `type` is recursive
+    #
+    # See `Factory#deep_expand_alias`.
+    #
+    def deep_expand_alias: (AST::Types::t `type`) -> AST::Types::t?
+
+    # `A | B | ... | Z` => `[A, B, ..., Z]`
+    def flatten_union: (AST::Types::t) -> Array[AST::Types::t]
+
+    def select_flatten_types: (AST::Types::t) { (AST::Types::t) -> boolish } -> Array[AST::Types::t]
+
+    def partition_flatten_types: (AST::Types::t) { (AST::Types::t) -> boolish } -> [Array[AST::Types::t], Array[AST::Types::t]]
+
+    def flatten_array_elements: (AST::Types::t) -> Array[AST::Types::t]
+
+    def expand_alias: (AST::Types::t `type`) -> AST::Types::t
+                    | [A] (AST::Types::t) { (AST::Types::t) -> A } -> A
+
+    def test_literal_type: (untyped literal, untyped hint) -> (untyped | nil)
+
+    def to_instance_type: (untyped `type`, ?args: untyped?) -> untyped
+
+    # Synthesize the type of a node, assuming it has tuple type when possible
+    #
+    # * Try `#try_tuple_type` if applicable, or
+    # * Run the normal `#synthesize` else
+    #
+    def try_tuple_type!: (Parser::AST::Node node, ?hint: AST::Types::t?) -> Pair
+
+    # Try to give `array_node` a tuple type
+    #
+    # * If `hint` is given, the array element would receive a hint of element of `hint` type.
+    # * If `hint` it not given, `array_node` is assumed to have a tuple type, but no assumption on element types.
+    #
+    # Returns `nil` when `array_node` includes `*` (splat) node.
+    #
+    # ```ruby
+    # try_tuple_type(`[1, 2]`, nil)               # => `[Integer, Integer, Integer]`
+    # try_tuple_type(`[1]`, `[Integer, Integer]`) # => `[Integer]`
+    # try_tuple_type(`[1, 2]`, `[Integer]`)       # => `[Integer, Integer]`
+    # try_tuple_type(`[1, *]`, `[Integer]`)       # => nil
+    # ```
+    #
+    # Note that `typing` will be updated even when it returns `nil`.
+    # You probably should try `with_new_typing` to make the result _atomic_.
+    #
+    def try_tuple_type: (Parser::AST::Node array_node, AST::Types::Tuple? hint) -> Pair?
+
+    # Try to convert an object of `type` with zero-arity method `method`.
+    #
+    # Returns `nil` when
+    #
+    # 1. The `type` cannot be converted to an interface, or
+    # 2. There is no that `conversion` method defined
+    #
+    # ```ruby
+    # try_convert(`::Object`, :to_s)        # Returns `::String`
+    # try_convert(`::String`, :to_ary)      # Returns nil
+    # ```
+    #
+    def try_convert: (AST::Types::t `type`, Symbol method) -> AST::Types::t?
+
+    # Try to convert an object of `type` to an Array-ish
+    #
+    # * `untyped` is arrayish
+    #
+    def try_convert_to_array: (AST::Types::t) -> AST::Types::t?
+
+    # Returns a type if given type is arrayish
+    #
+    # * Aliases will be unfolded to arrayish type
+    # * Returns `nil` if given type is not arrayish
+    # * `untyped` is arrayish if `untyped_is:` is `true` (defaults to `false`)
+    #
+    def arrayish_type?: (AST::Types::t, ?untyped_is: bool) -> AST::Types::t?
+
+    # Returns the type is given type is a subtype of Array
+    def semantically_arrayish_type?: (AST::Types::t) -> AST::Types::t?
+
+    # Give an array node a type with hint
+    #
+    def try_array_type: (Parser::AST::Node node, AST::Types::Name::Instance? hint) -> Pair
+
+    # Returns a record type if `hash_node` can have a record type.
+    #
+    # You can give a hint through `record_type` by passing a `AST::Types::Record` object.
+    # If you pass `nil`, then we know the type is expected to be a record, but the detail is not given.
+    #
+    # Returns `nil` when the `hash_node` cannot have a record type.
+    #
+    def type_hash_record: (Parser::AST::Node hash_node, AST::Types::Record? record_type) -> Pair?
+
+    # Give hash_node a type based on hint.
+    #
+    # * When hint is Record type, it may have record type.
+    # * When hint is union type, it tries recursively with the union cases.
+    # * Otherwise, it tries to be a hash instance.
+    #
+    def type_hash: (Parser::AST::Node hash_node, hint: AST::Types::t?) -> Pair
+
+    # Returns the first one from elements of `types` that returns a type `t` where `t <: hint`.
+    #
+    def pick_one_of: (Array[AST::Types::t] types, range: untyped) { (AST::Types::t hint, TypeConstruction) -> Pair? } -> Pair?
+
+    # *Commit* the transaction (current typing) and returns a `TypeConstruction` with saved typing
+    #
+    # ```ruby
+    # transaction = typing.new_child(range) {|child| constr.with_new_typing(child) }
+    #
+    # # Do something that may fail
+    #
+    # if succeeded
+    #   # Commit the may-fail operation
+    #   constr = transaction.save_typing()
+    # else
+    #   # Abort the transaction
+    # end
+    # ```
+    def save_typing: () -> TypeConstruction
+
+    # Returns `true` if a method call can be identified as _pure_:
+    #
+    # * The `node` is not a call with block,
+    # * It always calls _pure_ method,
+    # * The `receiver` is _pure_, and
+    # * All of the arguments are _pure_
+    #
+    def pure_send?: (TypeInference::MethodCall::Typed call, Parser::AST::Node? receiver, Array[Parser::AST::Node] arguments) -> bool
+
+    # Transform given `node` to a node that has a local variable instead of the outer most call/non-value node
+    #
+    # Returns a pair of transformed node and the outer most call/non-value node if present.
+    #
+    # ```rb
+    # x = y = foo()   # Call `#transform_condition_node` with the node and var_name `:__foo__`
+    #                 # => Returns [x = y = __foo__, foo()]
+    #
+    # x               # Call `#transform_condition_node` with the node and var_name `:__foo__`
+    #                 # => Returns [__foo__, x]
+    # ```
+    #
+    # This is typically used for transforming assginment node for case condition.
+    #
+    def transform_condition_node: (Parser::AST::Node node, Symbol) -> [Parser::AST::Node, Parser::AST::Node]
+
+    def type_name: (AST::Types::t) -> RBS::TypeName?
+
+    def singleton_type: (AST::Types::t) -> AST::Types::t?
+
+    def instance_type: (AST::Types::t) -> AST::Types::t?
+
+    # Propagate an entry of `source` in TypeEnv to `dest`
+    #
+    # `source` is name of a local variable.
+    #
+    # If `dest` is a `lvar` node, it updates local variable entry of TypeEnv.
+    # Otherwise, it updates *pure* call of `dest` if it already exists.
+    #
+    def propagate_type_env: (Symbol source, Parser::AST::Node dest, TypeInference::TypeEnv) -> TypeInference::TypeEnv
+  end
+end

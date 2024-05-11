@@ -1,0 +1,21 @@
+module Steep
+  module Services
+    class PathAssignment
+      attr_reader index: Integer
+
+      attr_reader max_index: Integer
+
+      attr_reader cache: Hash[Pathname, Integer]
+
+      def initialize: (index: Integer, max_index: Integer) -> void
+
+      def self.all: () -> PathAssignment
+
+      def =~: (Pathname path) -> bool
+
+      alias === =~
+
+      def self.index_for: (path: String, max_index: Integer) -> Integer
+    end
+  end
+end

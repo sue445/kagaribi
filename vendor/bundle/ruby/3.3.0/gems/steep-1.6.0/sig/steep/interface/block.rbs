@@ -1,0 +1,41 @@
+module Steep
+  module Interface
+    class Block
+      attr_reader type: Function
+
+      attr_reader self_type: AST::Types::t?
+
+      attr_reader optional: bool
+
+      def initialize: (type: Function, self_type: AST::Types::t?, optional: bool) -> void
+
+      def optional?: () -> bool
+
+      def required?: () -> bool
+
+      def to_optional: () -> Block
+
+      def ==: (untyped other) -> bool
+
+      alias eql? ==
+
+      def hash: () -> Integer
+
+      def closed?: () -> bool
+
+      def subst: (Substitution s) -> Block
+
+      @fvs: Set[Symbol]
+
+      def free_variables: () -> Set[Symbol]
+
+      def to_s: () -> ::String
+
+      def map_type: () { (AST::Types::t) -> AST::Types::t } -> Block
+
+      def +: (Block other) -> Block
+
+      def to_proc_type: () -> AST::Types::t
+    end
+  end
+end

@@ -1,0 +1,265 @@
+module Steep
+  module Interface
+    class Function
+      class Params
+        module Utils
+          def union: (*AST::Types::t types, ?null: bool) -> AST::Types::t
+
+          def intersection: (*AST::Types::t types) -> AST::Types::t
+        end
+
+        type t = PositionalParams::param | KeywordParams
+
+        class PositionalParams
+          class Base
+            attr_reader type: AST::Types::t
+
+            def initialize: (AST::Types::t `type`) -> void
+
+            def ==: (untyped other) -> bool
+
+            alias eql? ==
+
+            def hash: () -> Integer
+
+            def subst: (Substitution s) -> self
+
+            def var_type: () -> AST::Types::t
+
+            def map_type: () { (AST::Types::t) -> AST::Types::t } -> self
+          end
+
+          class Required < Base
+          end
+
+          class Optional < Base
+          end
+
+          class Rest < Base
+          end
+
+          type param = Required | Optional | Rest
+
+          attr_reader head: param
+
+          attr_reader tail: PositionalParams?
+
+          def initialize: (head: param, tail: PositionalParams?) -> void
+
+          def self.required: (AST::Types::t `type`, ?PositionalParams? tail) -> PositionalParams
+
+          def self.optional: (AST::Types::t `type`, ?PositionalParams? tail) -> PositionalParams
+
+          def self.rest: (AST::Types::t `type`, ?PositionalParams? tail) -> PositionalParams
+
+          def to_ary: () -> [param, PositionalParams?]
+
+          def map: () { (param) -> param } -> PositionalParams
+
+          def map_type: () { (AST::Types::t) -> AST::Types::t } -> PositionalParams
+
+          def subst: (Substitution s) -> PositionalParams
+
+          def ==: (untyped other) -> bool
+
+          alias eql? ==
+
+          def hash: () -> Integer
+
+          def each: () { (param) -> void } -> void
+                  | () -> Enumerator[param, void]
+
+          def each_type: () { (AST::Types::t) -> void } -> void
+                       | () -> Enumerator[AST::Types::t, void]
+
+          def size: () -> Integer
+
+          def self.build: (required: Array[AST::Types::t], optional: Array[AST::Types::t], rest: AST::Types::t?) -> PositionalParams
+
+          extend Utils
+
+          # Calculates xs + ys.
+          # Never fails.
+          def self.merge_for_overload: (PositionalParams? xs, PositionalParams? ys) -> PositionalParams
+
+          # xs | ys
+          def self.merge_for_union: (PositionalParams? xs, PositionalParams? ys) -> PositionalParams?
+
+          # Calculates xs & ys.
+          # Raises when failed.
+          #
+          def self.merge_for_intersection: (PositionalParams? xs, PositionalParams? ys) -> PositionalParams?
+        end
+
+        class KeywordParams
+          attr_reader requireds: Hash[Symbol, AST::Types::t]
+
+          attr_reader optionals: Hash[Symbol, AST::Types::t]
+
+          attr_reader rest: AST::Types::t?
+
+          def initialize: (?requireds: ::Hash[untyped, untyped], ?optionals: ::Hash[untyped, untyped], ?rest: untyped?) -> void
+
+          def ==: (untyped other) -> untyped
+
+          alias eql? ==
+
+          def hash: () -> untyped
+
+          def update: (?requireds: untyped, ?optionals: untyped, ?rest: untyped) -> untyped
+
+          def empty?: () -> bool
+
+          def each: () { ([Symbol?, AST::Types::t]) -> void } -> void
+                  | () -> Enumerator[[Symbol?, AST::Types::t], void]
+
+          def each_type: () { (AST::Types::t) -> void } -> void
+                       | () -> Enumerator[AST::Types::t, void]
+
+          def map_type: () { (AST::Types::t) -> AST::Types::t } -> KeywordParams
+
+          def subst: (Substitution s) -> KeywordParams
+
+          def size: () -> Integer
+
+          def keywords: () -> Set[Symbol]
+
+          include Utils
+
+          # For overloading
+          def +: (untyped other) -> untyped
+
+          # For union
+          def |: (untyped other) -> untyped
+
+          # For intersection
+          def &: (untyped other) -> (nil | untyped)
+        end
+
+        def required: () -> Array[AST::Types::t]
+
+        def optional: () -> Array[AST::Types::t]
+
+        %a{pure} def rest: () -> AST::Types::t?
+
+        attr_reader positional_params: PositionalParams?
+
+        attr_reader keyword_params: KeywordParams
+
+        def self.build: (?required: untyped, ?optional: untyped, ?rest: untyped?, ?required_keywords: ::Hash[untyped, untyped], ?optional_keywords: ::Hash[untyped, untyped], ?rest_keywords: untyped?) -> untyped
+
+        def initialize: (positional_params: untyped, keyword_params: untyped) -> void
+
+        def update: (?positional_params: untyped, ?keyword_params: untyped) -> untyped
+
+        def first_param: () -> untyped
+
+        def with_first_param: (untyped param) -> untyped
+
+        def has_positional?: () -> (true | false)
+
+        def self.empty: () -> untyped
+
+        def ==: (untyped other) -> untyped
+
+        alias eql? ==
+
+        def hash: () -> untyped
+
+        def flat_unnamed_params: () -> Array[[:required | :optional, AST::Types::t]]
+
+        def flat_keywords: () -> untyped
+
+        def required_keywords: () -> untyped
+
+        def optional_keywords: () -> untyped
+
+        def rest_keywords: () -> untyped
+
+        def has_keywords?: () -> untyped
+
+        def each_positional_param: () { (PositionalParams::Base) -> void } -> void
+
+        def without_keywords: () -> untyped
+
+        def drop_first: () -> untyped
+
+        def each_type: () { (AST::Types::t) -> void } -> void
+                     | () -> Enumerator[AST::Types::t, void]
+
+        def free_variables: () -> untyped
+
+        def closed?: () -> untyped
+
+        def subst: (Substitution s) -> Params
+
+        def size: () -> untyped
+
+        def to_s: () -> ::String
+
+        def map_type: () { (AST::Types::t) -> AST::Types::t } -> Params
+
+        def empty?: () -> bool
+
+        # Returns true if all arguments are non-required.
+        def optional?: () -> bool
+
+        # self + params returns a new params for overloading.
+        #
+        def +: (Params other) -> Params
+
+        # Returns the intersection between self and other.
+        # Returns nil if the intersection cannot be computed.
+        #
+        #   (self & other) <: self
+        #   (self & other) <: other
+        #
+        # `self & other` accept `arg` if `arg` is acceptable for both of `self` and `other`.
+        #
+        def &: (Params other) -> Params?
+
+        # Returns the union between self and other.
+        #
+        #    self <: (self | other)
+        #   other <: (self | other)
+        #
+        # `self | other` accept `arg` if `self` accepts `arg` or `other` accepts `arg`.
+        #
+        def |: (Params other) -> Params?
+      end
+
+      type location = RBS::Location[untyped, untyped]
+
+      attr_reader params: Params
+
+      attr_reader return_type: AST::Types::t
+
+      attr_reader location: location?
+
+      def initialize: (params: Params, return_type: AST::Types::t, location: location?) -> void
+
+      def ==: (untyped other) -> bool
+
+      alias eql? ==
+
+      def hash: () -> Integer
+
+      def free_variables: () -> Set[Symbol]
+
+      def subst: (Substitution s) -> Function
+
+      alias each_child each_type
+
+      def each_type: () { (AST::Types::t) -> void } -> void
+                   | () -> Enumerator[AST::Types::t, void]
+
+      def map_type: () { (AST::Types::t) -> AST::Types::t } -> Function
+
+      def with: (?params: Params, ?return_type: AST::Types::t) -> Function
+
+      def to_s: () -> ::String
+
+      def closed?: () -> bool
+    end
+  end
+end

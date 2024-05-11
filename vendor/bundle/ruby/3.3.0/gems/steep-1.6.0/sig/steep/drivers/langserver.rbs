@@ -1,0 +1,36 @@
+module Steep
+  module Drivers
+    class Langserver
+      attr_reader stdout: IO
+
+      attr_reader stderr: IO
+
+      attr_reader stdin: IO
+
+      attr_reader write_mutex: Thread::Mutex
+
+      attr_reader type_check_queue: Thread::Queue
+
+      attr_reader type_check_thread: Thread
+
+      attr_reader jobs_option: Utils::JobsOption
+
+      include Utils::DriverHelper
+
+      def initialize: (stdout: untyped, stderr: untyped, stdin: untyped) -> void
+
+      @writer: LanguageServer::Protocol::Transport::Io::Writer?
+
+      def writer: () -> LanguageServer::Protocol::Transport::Io::Writer
+
+      @reader: LanguageServer::Protocol::Transport::Io::Reader?
+
+      def reader: () -> LanguageServer::Protocol::Transport::Io::Reader
+
+      @project: Project
+      def project: () -> Project
+
+      def run: () -> Integer
+    end
+  end
+end

@@ -1,0 +1,36 @@
+use LanguageServer::Protocol::Constant::DiagnosticSeverity as LSPDiagnosticSeverity
+use LanguageServer::Protocol::Interface::Diagnostic as LSPDiagnostic
+
+module Steep
+  module Diagnostic
+    class LSPFormatter
+      module LSP = LanguageServer::Protocol
+
+      type config = Hash[singleton(Diagnostic::Ruby::Base) | singleton(Diagnostic::Signature::Base), severity?]
+
+      type severity = :error | :warning | :information | :hint
+
+      attr_reader config: config
+
+      attr_reader default_severity: severity
+
+      ERROR: :error
+
+      WARNING: :warning
+
+      INFORMATION: :information
+
+      HINT: :hint
+
+      def initialize: (?config config, ?default_severity: severity) -> void
+
+      def validate_class: (Class klass) -> void
+
+      def validate_severity: (Class | :default klass, severity?) -> void
+
+      def format: (Diagnostic::Ruby::Base | Diagnostic::Signature::Base) -> LSPDiagnostic::json?
+
+      def severity_for: (Diagnostic::Ruby::Base | Diagnostic::Signature::Base) -> LSPDiagnosticSeverity::t?
+    end
+  end
+end

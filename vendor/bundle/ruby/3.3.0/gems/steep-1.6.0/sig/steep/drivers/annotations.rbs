@@ -1,0 +1,17 @@
+module Steep
+  module Drivers
+    class Annotations
+      attr_reader command_line_patterns: Array[String]
+
+      attr_reader stdout: IO
+
+      attr_reader stderr: IO
+
+      include Utils::DriverHelper
+
+      def initialize: (stdout: IO, stderr: IO) -> void
+
+      def run: () -> Integer
+    end
+  end
+end

@@ -1,0 +1,110 @@
+---
+- file: a.rb
+  diagnostics:
+  - range:
+      start:
+        line: 4
+        character: 10
+      end:
+        line: 4
+        character: 13
+    severity: ERROR
+    message: Type `::Integer` does not have method `foo`
+    code: Ruby::NoMethod
+  - range:
+      start:
+        line: 7
+        character: 10
+      end:
+        line: 7
+        character: 13
+    severity: ERROR
+    message: Type `::Integer` does not have method `foo`
+    code: Ruby::NoMethod
+  - range:
+      start:
+        line: 9
+        character: 6
+      end:
+        line: 9
+        character: 15
+    severity: ERROR
+    message: 'Cannot find the declaration of class: `WithToInt`'
+    code: Ruby::UnknownConstant
+  - range:
+      start:
+        line: 12
+        character: 20
+      end:
+        line: 12
+        character: 29
+    severity: ERROR
+    message: 'Cannot find the declaration of constant: `WithToInt`'
+    code: Ruby::UnknownConstant
+  - range:
+      start:
+        line: 13
+        character: 10
+      end:
+        line: 13
+        character: 13
+    severity: ERROR
+    message: Type `::Integer` does not have method `foo`
+    code: Ruby::NoMethod
+  - range:
+      start:
+        line: 15
+        character: 6
+      end:
+        line: 15
+        character: 13
+    severity: ERROR
+    message: 'Cannot find the declaration of class: `WithToI`'
+    code: Ruby::UnknownConstant
+  - range:
+      start:
+        line: 18
+        character: 20
+      end:
+        line: 18
+        character: 27
+    severity: ERROR
+    message: 'Cannot find the declaration of constant: `WithToI`'
+    code: Ruby::UnknownConstant
+  - range:
+      start:
+        line: 19
+        character: 10
+      end:
+        line: 19
+        character: 13
+    severity: ERROR
+    message: Type `::Integer` does not have method `foo`
+    code: Ruby::NoMethod
+  - range:
+      start:
+        line: 22
+        character: 10
+      end:
+        line: 22
+        character: 13
+    severity: ERROR
+    message: Type `::Integer` does not have method `foo`
+    code: Ruby::NoMethod
+  - range:
+      start:
+        line: 24
+        character: 0
+      end:
+        line: 24
+        character: 19
+    severity: ERROR
+    message: |-
+      Cannot find compatible overloading of method `Integer` of type `::Object`
+      Method types:
+        def Integer: ((::_ToInt | ::_ToI), ?exception: true) -> ::Integer
+                   | ((::_ToInt | ::_ToI), exception: bool) -> (::Integer | nil)
+                   | (::string, ?::int, ?exception: true) -> ::Integer
+                   | (::string, ?::int, exception: bool) -> (::Integer | nil)
+                   | (untyped, ?untyped, exception: false) -> nil
+    code: Ruby::UnresolvedOverloading

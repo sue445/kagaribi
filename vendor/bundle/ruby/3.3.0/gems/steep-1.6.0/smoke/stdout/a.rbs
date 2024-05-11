@@ -1,0 +1,7 @@
+interface _Puts
+  def puts: (*untyped) -> void
+end
+
+class A
+  def write_to: (io: _Puts) -> void
+end

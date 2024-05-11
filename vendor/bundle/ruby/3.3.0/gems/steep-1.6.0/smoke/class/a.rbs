@@ -1,0 +1,23 @@
+class A
+  def foo: (String) -> untyped
+  def bar: () -> String
+  def self.baz: -> Integer
+end
+
+class B
+  def name: -> String
+end
+
+class C
+  def foo: -> instance
+  def bar: -> instance
+end
+
+class D
+  def initialize: (String) -> untyped
+  def foo: -> untyped
+end
+
+interface _E
+  def foo: -> untyped
+end

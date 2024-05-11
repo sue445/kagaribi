@@ -1,0 +1,107 @@
+module Steep
+  module Services
+    class TypeCheckService
+      attr_reader project: Project
+
+      attr_reader signature_validation_diagnostics: Hash[Symbol, Hash[Pathname, Array[Diagnostic::Signature::Base]]]
+
+      attr_reader source_files: Hash[Pathname, SourceFile]
+
+      attr_reader signature_services: Hash[Symbol, SignatureService]
+
+      class SourceFile
+        attr_reader path: Pathname
+
+        attr_reader target: Project::Target
+
+        attr_reader content: String
+
+        attr_reader node: Parser::AST::Node | nil | false
+
+        attr_reader typing: Typing?
+
+        attr_reader errors: Array[Diagnostic::Ruby::Base]?
+
+        def initialize: (
+          path: Pathname,
+          node: Parser::AST::Node | nil | false,
+          content: String,
+          typing: Typing?,
+          errors: Array[Diagnostic::Ruby::Base]?
+        ) -> void
+
+        def self.with_syntax_error: (path: Pathname, content: String, error: Diagnostic::Ruby::SyntaxError) -> SourceFile
+
+        def self.with_typing: (path: Pathname, content: String, typing: Typing, node: Parser::AST::Node?) -> SourceFile
+
+        def self.no_data: (path: Pathname, content: String) -> SourceFile
+
+        def update_content: (String content) -> SourceFile
+
+        def diagnostics: () -> Array[Diagnostic::Ruby::Base]
+      end
+
+      class TargetRequest
+        attr_reader target: Project::Target
+
+        attr_reader source_paths: Set[Pathname]
+
+        @signature_updated: bool
+
+        def initialize: (target: Project::Target) -> void
+
+        def signature_updated!: (?bool value) -> self
+
+        def signature_updated?: () -> bool
+
+        def empty?: () -> bool
+
+        def ==: (untyped other) -> bool
+
+        alias eql? ==
+
+        def hash: () -> Integer
+      end
+
+      def initialize: (project: Project) -> void
+
+      def signature_diagnostics: () -> Hash[Pathname, Array[Diagnostic::Signature::Base]]
+
+      def has_diagnostics?: () -> bool
+
+      def diagnostics: () -> Hash[Pathname, Array[Diagnostic::Ruby::Base | Diagnostic::Signature::Base]]
+
+      def each_diagnostics: () { ([Pathname, Array[Diagnostic::Ruby::Base] | Array[Diagnostic::Signature::Base]]) -> void } -> void
+                          | () -> Enumerator[[Pathname, Array[Diagnostic::Ruby::Base] | Array[Diagnostic::Signature::Base]], void]
+
+      def update: (changes: Server::ChangeBuffer::changes) -> Hash[Project::Target, TargetRequest]
+
+      def update_and_check: (
+        changes: Server::ChangeBuffer::changes,
+        assignment: PathAssignment
+      ) {
+        ([Pathname, Array[Diagnostic::Signature::Base] | Array[Diagnostic::Ruby::Base]]) -> void
+      } -> void
+
+      def validate_signature: (path: Pathname) { ([Pathname, Array[Diagnostic::Signature::Base]]) -> void } -> void
+
+      def typecheck_source: (path: Pathname, ?target: Project::Target?) { ([Pathname, Array[Diagnostic::Ruby::Base]]) -> void } -> void
+
+      def update_signature: (changes: Server::ChangeBuffer::changes, requests: Hash[Project::Target, TargetRequest]) -> void
+
+      def update_sources: (changes: Server::ChangeBuffer::changes, requests: Hash[Project::Target, TargetRequest]) -> void
+
+      def type_check_file: (target: Project::Target, subtyping: Subtyping::Check, path: Pathname, text: String) { () -> RBS::Resolver::ConstantResolver } -> SourceFile
+
+      def self.type_check: (source: Source, subtyping: Subtyping::Check, constant_resolver: RBS::Resolver::ConstantResolver) -> Typing
+
+      def source_file?: (Pathname path) -> Project::Target?
+
+      def signature_file?: (Pathname path) -> Array[Symbol]?
+
+      def app_signature_file?: (Pathname path) -> Array[Symbol]?
+
+      def lib_signature_file?: (Pathname path) -> bool
+    end
+  end
+end

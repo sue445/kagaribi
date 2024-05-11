@@ -1,0 +1,16 @@
+module Steep
+  module AST
+    module Types
+      type t = Any | Boolean | Bot | Nil |  Top | Void | Literal
+           | Class | Instance | Self
+           | Intersection  | Record | Tuple | Union
+           | Name::Alias | Name::Instance | Name::Interface | Name::Singleton
+           | Proc | Var
+           | Logic::Not | Logic::ReceiverIsNil | Logic::ReceiverIsNotNil | Logic::ReceiverIsArg | Logic::ArgIsReceiver | Logic::ArgEqualsReceiver | Logic::ArgIsAncestor | Logic::Env
+
+      # Variables and special types that is subject for substitution
+      #
+      type variable = Symbol | Class | Instance | Self
+    end
+  end
+end

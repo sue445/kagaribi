@@ -1,0 +1,37 @@
+module Steep
+  module AST
+    module Types
+      class Record
+        type key = Symbol | String | Integer
+
+        attr_reader location: untyped
+
+        attr_reader elements: Hash[key, t]
+
+        def initialize: (elements: Hash[key, t], ?location: untyped) -> void
+
+        def ==: (untyped other) -> bool
+
+        def hash: () -> Integer
+
+        alias eql? ==
+
+        def subst: (Interface::Substitution s) -> Record
+
+        def to_s: () -> String
+
+        @fvs: Set[variable]
+        def free_variables: () -> Set[variable]
+
+        include Helper::ChildrenLevel
+
+        def each_child: () { (t) -> void } -> void
+                      | () -> Enumerator[t, void]
+
+        def level: () -> Array[Integer]
+
+        def with_location: (untyped new_location) -> Record
+      end
+    end
+  end
+end

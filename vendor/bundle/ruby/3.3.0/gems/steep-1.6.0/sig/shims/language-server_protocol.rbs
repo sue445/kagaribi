@@ -1,0 +1,450 @@
+module LanguageServer
+  module Protocol
+    module Transport
+      module Io
+        class Writer
+          def initialize: (IO) -> void
+
+          def write: (**untyped) -> void
+                   | (Hash[Symbol, untyped]) -> void
+        end
+
+        class Reader
+          def initialize: (IO) -> void
+
+          def read: () { (untyped) -> void } -> bot
+        end
+      end
+    end
+
+    module Constant
+      module CompletionItemKind
+        type t = Integer
+
+        TEXT: Integer
+        METHOD: Integer
+        FUNCTION: Integer
+        CONSTRUCTOR: Integer
+        FIELD: Integer
+        VARIABLE: Integer
+        CLASS: Integer
+        INTERFACE: Integer
+        MODULE: Integer
+        PROPERTY: Integer
+        UNIT: Integer
+        VALUE: Integer
+        ENUM: Integer
+        KEYWORD: Integer
+        SNIPPET: Integer
+        COLOR: Integer
+        FILE: Integer
+        REFERENCE: Integer
+        FOLDER: Integer
+        ENUMMEMBER: Integer
+        CONSTANT: Integer
+        STRUCT: Integer
+        EVENT: Integer
+        OPERATOR: Integer
+        TYPEPARAMETER: Integer
+      end
+
+      module CompletionItemTag
+        type t = Integer
+
+        Deprecated: Integer
+      end
+
+      module InsertTextFormat
+        type t = Integer
+
+        PLAIN_TEXT: Integer
+
+        SNIPPET: Integer
+      end
+
+      module InsertTextMode
+        type t = Integer
+
+        AS_IS: Integer
+
+        ADJUST_INDENTATION: Integer
+      end
+
+      module MarkupKind
+        type t = "plaintext" | "markdown"
+
+        PLAINTEXT: "plaintext"
+
+        MARKDOWN: "markdown"
+      end
+
+      class MessageType
+        type t = 1 | 2 | 3 | 4
+
+        ERROR: 1
+
+        WARNING: 2
+
+        INFO: 3
+
+        LOG: 4
+      end
+
+      module DiagnosticSeverity
+        type t = 1 | 2 | 3 | 4
+
+        ERROR: 1
+
+        WARNING: 2
+
+        INFORMATION: 3
+
+        HINT: 4
+      end
+
+      module DiagnosticTag
+        type t = 1 | 2
+
+        UNNECESSARY: 1
+
+        DEPRECATED: 2
+      end
+
+      module SymbolKind
+        FILE: 1
+        MODULE: 2
+        NAMESPACE: 3
+        PACKAGE: 4
+        CLASS: 5
+        METHOD: 6
+        PROPERTY: 7
+        FIELD: 8
+        CONSTRUCTOR: 9
+        ENUM: 10
+        INTERFACE: 11
+        FUNCTION: 12
+        VARIABLE: 13
+        CONSTANT: 14
+        STRING: 15
+        NUMBER: 16
+        BOOLEAN: 17
+        ARRAY: 18
+        OBJECT: 19
+        KEY: 20
+        NULL: 21
+        ENUM_MEMBER: 22
+        STRUCT: 23
+        EVENT: 24
+        OPERATOR: 25
+        TYPE_PARAMETER: 26
+
+        type t = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26
+      end
+    end
+
+    module Interface
+      interface _Base
+        def attributes: () -> Hash[Symbol, untyped]
+
+        alias to_hash attributes
+
+        def to_json: () -> String
+      end
+
+      class Position
+        type json = { line: Integer, character: Integer }
+
+        include _Base
+
+        # 0-origin line number
+        attr_reader line: Integer
+
+        # 0-origin character position (== cursor position)
+        attr_reader character: Integer
+
+        def initialize: (line: Integer, character: Integer) -> void
+                      | (Hash[Symbol, untyped]) -> void
+      end
+
+      class Range
+        include _Base
+
+        type json = {
+          start: Position::json,
+          end: Position::json
+        }
+
+        attr_reader start: Position
+
+        attr_reader end: Position
+
+        def initialize: (start: Position, end: Position) -> void
+                      | (Hash[Symbol, untyped]) -> void
+      end
+
+      class Location
+        include _Base
+
+        type json = { uri: String, range: Range::json }
+
+        attr_reader uri: String
+
+        attr_reader range: Range
+
+        def initialize: (uri: String, range: Range) -> void
+      end
+
+      class MarkupContent
+        include _Base
+
+        attr_reader kind: Constant::MarkupKind::t
+
+        attr_reader value: String
+
+        def initialize: (kind: Constant::MarkupKind::t, value: String) -> void
+      end
+
+      class TextEdit
+        include _Base
+
+        attr_reader range: Range
+
+        attr_reader new_text: String
+
+        def initialize: (range: Range, new_text: String) -> void
+      end
+
+      class InsertReplaceEdit
+        include _Base
+
+        attr_reader new_text: String
+
+        attr_reader insert: Range
+
+        attr_reader replace: Range
+
+        def initialize: (new_text: String, insert: Range, replace: Range) -> void
+      end
+
+      class Command
+        include _Base
+
+        attr_reader title: String
+
+        attr_reader command: String
+
+        attr_reader arguments: Array[untyped]?
+
+        def initialize: (title: String, command: String, ?arguments: Array[untyped]?) -> void
+      end
+
+      class Hover
+        include _Base
+
+        attr_reader contents: MarkupContent
+
+        attr_reader range: Range
+
+        def initialize: (contents: MarkupContent, range: Range) -> void
+      end
+
+      class CompletionList
+        include _Base
+
+        attr_reader is_incomplete: bool
+
+        attr_reader items: Array[CompletionItem]
+
+        def initialize: (items: Array[CompletionItem], is_incomplete: bool) -> void
+      end
+
+      class CompletionItem
+        include _Base
+
+        attr_reader label: String
+
+        attr_reader label_details: CompletionItemLabelDetails?
+
+        attr_reader kind: Constant::CompletionItemKind::t?
+
+        attr_reader tags: Array[Constant::CompletionItemTag::t]?
+
+        attr_reader detail: String?
+
+        attr_reader documentation: MarkupContent?
+
+        attr_reader preselect: bool?
+
+        attr_reader sort_text: String?
+
+        attr_reader filter_text: String?
+
+        attr_reader insert_text: String?
+
+        attr_reader insert_text_format: Constant::InsertTextFormat::t?
+
+        attr_reader insert_text_mode: Constant::InsertTextMode::t?
+
+        attr_reader text_edit: TextEdit | InsertReplaceEdit | nil
+
+        attr_reader text_edit_text: String?
+
+        attr_reader additional_text_edits: Array[TextEdit]?
+
+        attr_reader commit_characters: Array[String]?
+
+        attr_reader command: Command?
+
+        attr_reader data: untyped?
+
+        def initialize:(
+          label: String,
+          ?label_details: CompletionItemLabelDetails?,
+          ?kind: Constant::CompletionItemKind::t?,
+          ?tags: Array[Constant::CompletionItemTag::t]?,
+          ?detail: String?,
+          ?documentation: MarkupContent?,
+          ?preselect: bool?,
+          ?sort_text: String?,
+          ?filter_text: String?,
+          ?insert_text: String?,
+          ?insert_text_format: Constant::InsertTextFormat::t?,
+          ?insert_text_mode: Constant::InsertTextMode::t?,
+          ?text_edit: TextEdit | InsertReplaceEdit | nil,
+          ?text_edit_text: String?,
+          ?additional_text_edits: Array[TextEdit]?,
+          ?commit_characters: Array[String]?,
+          ?command: Command?,
+          ?data: untyped?
+        ) -> void
+      end
+
+      class CompletionItemLabelDetails
+        include _Base
+
+        attr_reader detail: String?
+
+        attr_reader description: String?
+
+        def initialize: (?detail: String?, ?description: String?) -> void
+      end
+
+      class SignatureInformation
+        include _Base
+
+        attr_reader label: String
+
+        attr_reader documentation: MarkupContent?
+
+        attr_reader parameters: Array[ParameterInformation]?
+
+        attr_reader active_parameter: Integer?
+
+        def initialize: (label: String, ?documentation: MarkupContent?, ?parameters: Array[ParameterInformation]?, ?active_parameter: Integer?) -> void
+      end
+
+      class ParameterInformation
+        include _Base
+
+        attr_reader label: String | [Integer, Integer]
+
+        attr_reader documentation: MarkupContent?
+
+        def initialize: (label: String | [Integer, Integer], ?documentation: MarkupContent) -> void
+      end
+
+      class SignatureHelp
+        include _Base
+
+        attr_reader signatures: Array[SignatureInformation]
+
+        attr_reader active_signature: Integer?
+
+        attr_reader active_parameter: Integer?
+
+        def initialize: (signatures: Array[SignatureInformation], ?active_signature: Integer?, ?active_parameter: Integer?) -> void
+      end
+
+      class PublishDiagnosticsParams
+        include _Base
+
+        attr_reader uri: String
+
+        attr_reader version: Integer?
+
+        attr_reader diagnostics: Array[Diagnostic]
+
+        def initialize: (uri: String, ?version: Integer?, diagnostics: Array[Diagnostic]) -> void
+      end
+
+      class Diagnostic
+        type json = {
+          range: Range::json,
+          severity: Constant::DiagnosticSeverity::t?,
+          code: Integer | String | nil,
+          codeDescription: CodeDescription::json?,
+          source: String?,
+          message: String,
+          tags: Array[Constant::DiagnosticTag::t]?,
+          relatedInformation: RelatedInformation::json?,
+          data: untyped?
+        }
+
+        attr_reader range: Range
+
+        attr_reader severity: Constant::DiagnosticSeverity::t?
+
+        attr_reader code: Integer | String | nil
+
+        attr_reader code_description: CodeDescription?
+
+        attr_reader source: String?
+
+        attr_reader message: String
+
+        attr_reader tags: Array[Constant::DiagnosticTag::t]?
+
+        attr_reader related_information: RelatedInformation?
+
+        attr_reader data: untyped?
+
+        def initialize: (
+          range: Range,
+          ?severity: Constant::DiagnosticSeverity::t?,
+          ?code: Integer | String | nil,
+          ?code_description: CodeDescription?,
+          ?source: String?,
+          message: String,
+          ?tags: Array[Constant::DiagnosticTag::t]?,
+          ?related_information: RelatedInformation?,
+          ?data: untyped
+        ) -> void
+      end
+
+      class RelatedInformation
+        include _Base
+
+        type json = {
+          location: Location::json,
+          message: String
+        }
+
+        attr_reader location: Location
+
+        attr_reader message: String
+
+        def initialize: (location: Location, message: String) -> void
+      end
+
+      class CodeDescription
+        include _Base
+
+        type json = { href: String }
+
+        attr_reader href: String
+
+        def initialize: (href: String) -> void
+      end
+    end
+  end
+end

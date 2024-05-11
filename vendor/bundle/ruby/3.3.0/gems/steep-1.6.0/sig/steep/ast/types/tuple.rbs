@@ -1,0 +1,35 @@
+module Steep
+  module AST
+    module Types
+      class Tuple
+        attr_reader types: Array[t]
+
+        attr_reader location: untyped
+
+        def initialize: (types: Array[t], ?location: untyped) -> void
+
+        def ==: (untyped other) -> bool
+
+        def hash: () -> Integer
+
+        alias eql? ==
+
+        def subst: (Interface::Substitution s) -> Tuple
+
+        def to_s: () -> ::String
+
+        @fvs: Set[variable]
+        def free_variables: () -> Set[variable]
+
+        include Helper::ChildrenLevel
+
+        def each_child: () { (t) -> void } -> void
+                      | () -> Enumerator[t, void]
+
+        def level: () -> Array[Integer]
+
+        def with_location: (untyped new_location) -> Tuple
+      end
+    end
+  end
+end

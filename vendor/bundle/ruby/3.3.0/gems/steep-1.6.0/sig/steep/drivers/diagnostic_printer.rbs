@@ -1,0 +1,25 @@
+module Steep
+  module Drivers
+    class DiagnosticPrinter
+      module LSP = LanguageServer::Protocol
+
+      attr_reader stdout: IO
+
+      attr_reader buffer: RBS::Buffer
+
+      def initialize: (stdout: IO, buffer: RBS::Buffer) -> void
+
+      def path: () -> Pathname
+
+      def color_severity: (String string, severity: String) -> String
+
+      def severity_message: (String) -> String
+
+      def location: (untyped diagnostic) -> String
+
+      def print: (Hash[Symbol, untyped] diagnostic, ?prefix: ::String, ?source: bool) -> void
+
+      def print_source_line: (untyped diagnostic, ?prefix: ::String) -> void
+    end
+  end
+end

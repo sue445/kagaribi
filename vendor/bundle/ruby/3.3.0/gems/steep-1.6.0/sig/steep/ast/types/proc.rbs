@@ -1,0 +1,53 @@
+module Steep
+  module AST
+    module Types
+      class Proc
+        attr_reader location: untyped
+
+        attr_reader type: Interface::Function
+
+        attr_reader self_type: AST::Types::t?
+
+        attr_reader block: Interface::Block?
+
+        def initialize: (type: Interface::Function, self_type: AST::Types::t?, block: Interface::Block?, ?location: untyped) -> void
+
+        def ==: (untyped other) -> bool
+
+        def hash: () -> Integer
+
+        alias eql? ==
+
+        def subst: (Interface::Substitution s) -> Proc
+
+        def to_s: () -> ::String
+
+        @fvs: Set[variable]
+        def free_variables: () -> Set[variable]
+
+        include Helper::ChildrenLevel
+
+        def level: () -> Array[Integer]
+
+        def with_location: (untyped new_location) -> Proc
+
+        def map_type: () { (AST::Types::t) -> AST::Types::t } -> Proc
+
+        # Returns true if the proc requires exactly one argument
+        #
+        # * One required argument,
+        # * No optional/rest argument, and
+        # * No keywords
+        #
+        def one_arg?: () -> bool
+
+        def back_type: () -> AST::Types::t
+
+        def block_required?: () -> bool
+
+        def each_child: () { (AST::Types::t) -> void } -> void
+                      | () -> Enumerator[AST::Types::t, void]
+      end
+    end
+  end
+end

@@ -1,0 +1,19 @@
+module Steep
+  module Drivers
+    class Init
+      attr_reader stdout: IO
+
+      attr_reader stderr: IO
+
+      attr_accessor force_write: bool
+
+      include Utils::DriverHelper
+
+      TEMPLATE: String
+
+      def initialize: (stdout: IO, stderr: IO) -> void
+
+      def run: () -> Integer
+    end
+  end
+end

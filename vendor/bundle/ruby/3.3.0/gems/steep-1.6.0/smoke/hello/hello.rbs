@@ -1,0 +1,7 @@
+interface _Foo
+  def foo: -> untyped
+end
+
+interface _Bar
+  def bar: -> untyped
+end

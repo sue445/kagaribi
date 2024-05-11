@@ -1,0 +1,25 @@
+module Steep
+  class Project
+    class Target
+      attr_reader name: Symbol
+
+      attr_reader options: Options
+
+      attr_reader source_pattern: Pattern
+
+      attr_reader signature_pattern: Pattern
+
+      attr_reader code_diagnostics_config: untyped
+
+      def initialize: (name: Symbol, options: Options, source_pattern: Pattern, signature_pattern: Pattern, code_diagnostics_config: untyped) -> void
+
+      def possible_source_file?: (Pathname path) -> bool
+
+      def possible_signature_file?: (Pathname path) -> bool
+
+      def new_env_loader: (project: Project) -> RBS::EnvironmentLoader
+
+      def self.construct_env_loader: (options: Options, project: Project) -> RBS::EnvironmentLoader
+    end
+  end
+end

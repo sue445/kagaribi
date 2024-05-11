@@ -1,0 +1,19 @@
+module Steep
+  module Drivers
+    module Utils
+      class JobsOption
+        attr_accessor jobs_count: Integer?
+
+        attr_accessor steep_command: String?
+
+        attr_reader jobs_count_modifier: Integer
+
+        def initialize: (?jobs_count_modifier: Integer) -> void
+
+        def default_jobs_count: () -> Integer
+
+        def jobs_count_value: () -> Integer
+      end
+    end
+  end
+end

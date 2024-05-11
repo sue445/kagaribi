@@ -1,0 +1,37 @@
+module Steep
+  module Services
+    class ContentChange
+      class Position
+        attr_reader line: Integer
+
+        attr_reader column: Integer
+
+        def initialize: (line: Integer, column: Integer) -> void
+
+        def ==: (untyped other) -> bool
+
+        alias eql? ==
+
+        def hash: () -> Integer
+      end
+
+      type range = [Position, Position]
+
+      attr_reader range: range?
+
+      attr_reader text: String
+
+      def initialize: (text: String, ?range: range?) -> void
+
+      def ==: (untyped other) -> bool
+
+      alias eql? ==
+
+      def hash: () -> Integer
+
+      def self.string: (String) -> ContentChange
+
+      def apply_to: (String text) -> String
+    end
+  end
+end

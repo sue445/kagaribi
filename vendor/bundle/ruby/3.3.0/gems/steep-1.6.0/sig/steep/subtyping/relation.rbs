@@ -1,0 +1,63 @@
+module Steep
+  module Subtyping
+    class Relation[out Subject < _Subject]
+      interface _Subject
+        def hash: () -> Integer
+
+        def is_a?: (Module) -> bool
+
+        def class: () -> Class
+
+        def !: () -> bool
+      end
+
+      attr_reader sub_type: Subject
+
+      attr_reader super_type: Subject
+
+      def initialize: (sub_type: Subject, super_type: Subject) -> void
+
+      def hash: () -> Integer
+
+      def ==: (untyped other) -> bool
+
+      alias eql? ==
+
+      def to_s: () -> ::String
+
+      def to_ary: () -> [Subject, Subject]
+
+      def type?: () -> bool
+
+      def interface?: () -> bool
+
+      def method?: () -> bool
+
+      def function?: () -> bool
+
+      def params?: () -> bool
+
+      def block?: () -> bool
+
+      type relation_type = :type | :interface | :method | :function | :params | :block
+
+      def assert_type: (relation_type `type`) -> void
+
+      def type!: () -> void
+
+      def interface!: () -> void
+
+      def method!: () -> void
+
+      def function!: () -> void
+
+      def params!: () -> void
+
+      def block!: () -> void
+
+      def map: [T < Object] () { (Subject) -> T } -> Relation[T]
+
+      def flip: () -> Relation[Subject]
+    end
+  end
+end

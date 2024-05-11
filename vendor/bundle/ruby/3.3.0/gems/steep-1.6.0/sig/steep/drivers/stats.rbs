@@ -1,0 +1,47 @@
+module Steep
+  module Drivers
+    class Stats
+      type file_stats = {
+        type: String,
+        target: String,
+        path: String,
+        type: String,
+        typed_calls: Integer,
+        untyped_calls: Integer,
+        total_calls: Integer
+      }
+
+      class CSVPrinter
+        attr_reader io: IO
+
+        def initialize: (io: IO) -> void
+
+        def print: (Array[file_stats] stats_result) -> void
+      end
+
+      class TablePrinter
+        attr_reader io: IO
+
+        def initialize: (io: IO) -> void
+
+        def print: (Array[file_stats] stats_result) -> void
+      end
+
+      attr_reader stdout: IO
+
+      attr_reader stderr: IO
+
+      attr_reader command_line_patterns: Array[String]
+
+      attr_accessor format: "csv" | "table" | nil
+
+      attr_reader jobs_option: Utils::JobsOption
+
+      include Utils::DriverHelper
+
+      def initialize: (stdout: IO, stderr: IO) -> void
+
+      def run: () -> 0
+    end
+  end
+end

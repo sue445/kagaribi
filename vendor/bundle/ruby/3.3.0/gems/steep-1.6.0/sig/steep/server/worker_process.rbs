@@ -1,0 +1,97 @@
+use LanguageServer::Protocol as LSP
+
+module Steep
+  module Server
+    # WorkerProcess class represents a worker process
+    #
+    # Available operations are:
+    #
+    # 1. Sending a LSP message to the process
+    # 2. Receiving a LSP message from the process
+    # 3. Killing the process
+    #
+    # The process may be invoked by
+    #
+    # 1. `#fork` if available, or
+    # 2. `#spawn` otherwise
+    #
+    # `#fork` version is faster because it skips loading libraries.
+    #
+    #
+    class WorkerProcess
+      interface _ProcessWaitThread
+        def pid: () -> Integer
+      end
+
+      attr_reader reader: LSP::Transport::Io::Reader
+
+      attr_reader writer: LSP::Transport::Io::Writer
+
+      attr_reader stderr: IO?
+
+      attr_reader name: String
+
+      attr_reader wait_thread: Thread & _ProcessWaitThread
+
+      attr_reader index: Integer?
+
+      def initialize: (
+        reader: LSP::Transport::Io::Reader,
+        writer: LSP::Transport::Io::Writer,
+        stderr: IO?,
+        wait_thread: Thread & _ProcessWaitThread,
+        name: String,
+        ?index: Integer?
+      ) -> void
+
+      type worker_type = :interaction | :typecheck
+
+      def self.start_worker: (
+        worker_type `type`,
+        name: String,
+        steepfile: Pathname,
+        steep_command: String?,
+        ?patterns: Array[String],
+        ?delay_shutdown: bool,
+        ?index: [Integer, Integer]?
+      ) -> WorkerProcess
+
+      def self.fork_worker: (
+        worker_type `type`,
+        name: String,
+        steepfile: Pathname,
+        patterns: Array[String],
+        delay_shutdown: bool,
+        index: [Integer, Integer]?
+      ) -> WorkerProcess
+
+      def self.spawn_worker: (
+        worker_type `type`,
+        name: String,
+        steepfile: Pathname,
+        steep_command: ::String,
+        patterns: Array[String],
+        delay_shutdown: bool,
+        index: [Integer, Integer]?
+      ) -> WorkerProcess
+
+      def self.start_typecheck_workers: (
+        steepfile: Pathname,
+        args: Array[String],
+        steep_command: ::String?,
+        ?count: Integer,
+        ?delay_shutdown: bool
+      ) -> Array[WorkerProcess]
+
+      def <<: (untyped message) -> void
+
+      def read: () { (untyped) -> void } -> void
+
+      # Stop the process by sending SIGTERM and wait for the process exit
+      #
+      # Send `SIGKILL` and returns immediately if `force:` is `true`.
+      #
+      def kill: (?force: bool) -> void
+    end
+  end
+end

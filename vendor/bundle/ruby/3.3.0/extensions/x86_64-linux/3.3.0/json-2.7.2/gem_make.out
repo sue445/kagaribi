@@ -1,0 +1,16 @@
+current directory: /home/runner/work/kagaribi/kagaribi/vendor/bundle/ruby/3.3.0/gems/json-2.7.2/ext/json
+/opt/hostedtoolcache/Ruby/3.3.1/x64/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/runner/work/kagaribi/kagaribi/vendor/bundle/ruby/3.3.0/gems/json-2.7.2/ext/json
+make DESTDIR\= sitearchdir\=./.gem.20240511-1600-g0zc8e sitelibdir\=./.gem.20240511-1600-g0zc8e clean
+
+current directory: /home/runner/work/kagaribi/kagaribi/vendor/bundle/ruby/3.3.0/gems/json-2.7.2/ext/json
+make DESTDIR\= sitearchdir\=./.gem.20240511-1600-g0zc8e sitelibdir\=./.gem.20240511-1600-g0zc8e
+make: Nothing to be done for 'all'.
+
+current directory: /home/runner/work/kagaribi/kagaribi/vendor/bundle/ruby/3.3.0/gems/json-2.7.2/ext/json
+make DESTDIR\= sitearchdir\=./.gem.20240511-1600-g0zc8e sitelibdir\=./.gem.20240511-1600-g0zc8e install
+
+current directory: /home/runner/work/kagaribi/kagaribi/vendor/bundle/ruby/3.3.0/gems/json-2.7.2/ext/json
+make DESTDIR\= sitearchdir\=./.gem.20240511-1600-g0zc8e sitelibdir\=./.gem.20240511-1600-g0zc8e clean

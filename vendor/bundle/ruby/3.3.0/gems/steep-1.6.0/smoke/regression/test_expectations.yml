@@ -1,0 +1,120 @@
+---
+- file: array.rb
+  diagnostics:
+  - range:
+      start:
+        line: 1
+        character: 6
+      end:
+        line: 1
+        character: 9
+    severity: ERROR
+    message: 'Cannot find the declaration of class: `Foo`'
+    code: Ruby::UnknownConstant
+- file: empty_yield.rb
+  diagnostics:
+  - range:
+      start:
+        line: 3
+        character: 4
+      end:
+        line: 3
+        character: 9
+    severity: ERROR
+    message: More positional arguments are required
+    code: Ruby::InsufficientPositionalArguments
+- file: hash.rb
+  diagnostics:
+  - range:
+      start:
+        line: 1
+        character: 6
+      end:
+        line: 1
+        character: 9
+    severity: ERROR
+    message: 'Cannot find the declaration of class: `Foo`'
+    code: Ruby::UnknownConstant
+- file: hello world.rb
+  diagnostics:
+  - range:
+      start:
+        line: 1
+        character: 2
+      end:
+        line: 1
+        character: 5
+    severity: ERROR
+    message: Type `::Integer` does not have method `foo`
+    code: Ruby::NoMethod
+- file: issue_332.rb
+  diagnostics:
+  - range:
+      start:
+        line: 7
+        character: 8
+      end:
+        line: 7
+        character: 20
+    severity: ERROR
+    message: |-
+      Cannot find compatible overloading of method `-` of type `(::Object & ::Issue332::_TimeDurationExtensions & ::Issue332::TimeDurationExtensions)`
+      Method types:
+        def -: (::Issue332::Duration) -> ::Time
+             | (::Numeric) -> ::Time
+             | (::Time) -> ::Float
+    code: Ruby::UnresolvedOverloading
+- file: lambda.rb
+  diagnostics:
+  - range:
+      start:
+        line: 1
+        character: 7
+      end:
+        line: 1
+        character: 10
+    severity: ERROR
+    message: 'Cannot find the declaration of module: `Mod`'
+    code: Ruby::UnknownConstant
+- file: set_divide.rb
+  diagnostics:
+  - range:
+      start:
+        line: 2
+        character: 2
+      end:
+        line: 2
+        character: 10
+    severity: ERROR
+    message: Type `::Set[::String]` does not have method `ffffffff`
+    code: Ruby::NoMethod
+  - range:
+      start:
+        line: 5
+        character: 4
+      end:
+        line: 5
+        character: 9
+    severity: ERROR
+    message: Type `::String` does not have method `ggggg`
+    code: Ruby::NoMethod
+  - range:
+      start:
+        line: 7
+        character: 4
+      end:
+        line: 7
+        character: 9
+    severity: ERROR
+    message: Type `::String` does not have method `ggggg`
+    code: Ruby::NoMethod
+  - range:
+      start:
+        line: 11
+        character: 4
+      end:
+        line: 11
+        character: 9
+    severity: ERROR
+    message: Type `::String` does not have method `ggggg`
+    code: Ruby::NoMethod

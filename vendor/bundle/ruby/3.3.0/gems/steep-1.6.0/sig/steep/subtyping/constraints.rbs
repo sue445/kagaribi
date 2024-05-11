@@ -1,0 +1,111 @@
+module Steep
+  module Subtyping
+    class Constraints
+      class UnsatisfiedInvariantError < StandardError
+        attr_reader constraints: untyped
+
+        attr_reader reason: untyped
+
+        def initialize: (reason: untyped, constraints: untyped) -> void
+
+        class VariablesUnknownsNotDisjoint
+          attr_reader vars: untyped
+
+          def initialize: (vars: untyped) -> void
+
+          def message: () -> ::String
+        end
+
+        class VariablesFreeVariablesNotDisjoint
+          attr_reader var: untyped
+
+          attr_reader lower_bound: untyped
+
+          attr_reader upper_bound: untyped
+
+          def initialize: (?var: untyped?, ?lower_bound: untyped?, ?upper_bound: untyped?) -> void
+
+          def message: () -> ::String
+        end
+
+        class UnknownsFreeVariableNotDisjoint
+          attr_reader var: untyped
+
+          attr_reader upper_bound: untyped
+
+          attr_reader lower_bound: untyped
+
+          def initialize: (var: untyped, lower_bound: untyped, upper_bound: untyped) -> void
+
+          def message: () -> ::String
+        end
+      end
+
+      class UnsatisfiableConstraint < StandardError
+        attr_reader var: untyped
+
+        attr_reader sub_type: untyped
+
+        attr_reader super_type: untyped
+
+        attr_reader result: untyped
+
+        def initialize: (var: untyped, sub_type: untyped, super_type: untyped, result: untyped) -> void
+      end
+
+      class Context
+        attr_reader variance: untyped
+
+        attr_reader self_type: AST::Types::t
+
+        attr_reader instance_type: AST::Types::t
+
+        attr_reader class_type: AST::Types::t
+
+        def initialize: (variance: untyped, self_type: AST::Types::t, instance_type: AST::Types::t, class_type: AST::Types::t) -> void
+      end
+
+      attr_reader dictionary: Hash[Symbol, [Set[AST::Types::t], Set[AST::Types::t], Set[AST::Types::t]]]
+
+      attr_reader vars: Set[Symbol]
+
+      def initialize: (unknowns: _Each[Symbol]) -> void
+
+      def self.empty: () -> Constraints
+
+      def add_var: (*Symbol vars) -> void
+
+      def add: (Symbol var, ?sub_type: untyped?, ?super_type: untyped?, ?skip: bool) -> untyped
+
+      def eliminate_variable: (AST::Types::t `type`, to: AST::Types::t) -> AST::Types::t
+
+      def unknown?: (Symbol var) -> bool
+
+      def unknowns: () -> Set[Symbol]
+
+      def unknown!: (Symbol var) -> void
+
+      def empty?: () -> bool
+
+      def upper_bound: (Symbol var, ?skip: bool) -> AST::Types::t
+
+      def lower_bound: (Symbol var, ?skip: bool) -> AST::Types::t
+
+      def solution: (Check checker, variables: Enumerable[Symbol], variance: VariableVariance, self_type: AST::Types::t, instance_type: AST::Types::t, class_type: AST::Types::t) -> Interface::Substitution
+                  | (Check checker, variables: Enumerable[Symbol], context: Context) -> Interface::Substitution
+
+      def has_constraint?: (Symbol var) -> bool
+
+      def each: () { ([Symbol, AST::Types::t, AST::Types::t]) -> void } -> void
+              | () -> Enumerator[[Symbol, AST::Types::t, AST::Types::t], void]
+
+      def to_s: () -> ::String
+
+      private
+
+      def lower_bound_types: (Symbol var_name) -> Set[AST::Types::t]
+
+      def upper_bound_types: (Symbol var_name) -> Set[AST::Types::t]
+    end
+  end
+end

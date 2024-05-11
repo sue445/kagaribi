@@ -1,0 +1,10 @@
+class A
+  def foo: (untyped) -> Integer
+  include M
+
+  def baz: () -> untyped
+end
+
+module M
+  def foo: (untyped) -> Object
+end

@@ -1,0 +1,15 @@
+# FIXME: This is workaround. Delete after being included in rbs_collection
+
+module Google
+  module Cloud
+    module Firestore
+      class DocumentReference
+        def set: (Hash[untyped, untyped] data, ?untyped merge) -> void
+      end
+
+      def self.new: () -> Firestore
+
+      def doc: (String document_path) -> DocumentReference
+    end
+  end
+end

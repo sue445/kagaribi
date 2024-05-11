@@ -21,10 +21,27 @@ If bundler is not being used to manage dependencies, install the gem by executin
 TODO: Write usage instructions here
 
 ## Development
+At first, install [Firebase Local Emulator Suite](https://firebase.google.com/docs/emulator-suite/install_and_configure)
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+Mac 
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```bash
+brew install firebase-cli
+```
+
+Unix
+
+```bash
+sudo wget https://firebase.tools/bin/linux/latest -O /usr/local/bin/firebase --quiet
+sudo chmod 755 /usr/local/bin/firebase
+firebase setup:emulators:firestore
+```
+
+Run tests with Firebase Local Emulator
+
+```bash
+bundle exec rake spec
+```
 
 ## Contributing
 

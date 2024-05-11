@@ -22,3 +22,5 @@ gems:
     ignore: true
   - name: kagaribi
     ignore: true
+
+  - name: logger

@@ -40,7 +40,14 @@ jobs:
           bundle config path vendor/bundle
           bundle update --jobs $(nproc) --retry 3
 
-      - run: bundle exec rspec
+      - name: Install firebase emulator
+        run: |
+          set -xe
+          sudo wget https://firebase.tools/bin/linux/latest -O /usr/local/bin/firebase --quiet
+          sudo chmod 755 /usr/local/bin/firebase
+          firebase setup:emulators:firestore
+
+      - run: bundle exec rake spec
 
       - name: Slack Notification (not success)
         uses: act10ns/slack@v2
@@ -71,6 +78,14 @@ jobs:
       - run: bundle exec rbs collection install
       - run: bundle exec rbs validate
       - run: bundle exec steep check
+
+      - name: Slack Notification (not success)
+        uses: act10ns/slack@v2
+        if: "! success()"
+        continue-on-error: true
+        with:
+          status: ${{ job.status }}
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
 
   notify:
     needs:

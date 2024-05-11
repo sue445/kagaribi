@@ -1,0 +1,21 @@
+# TypeProf 0.21.9
+
+# Classes
+module Kagaribi
+  class Collection
+    @firestore: Google::Cloud::Firestore
+
+    attr_reader collection_name: String
+    attr_reader logger: Logger
+    def initialize: (String collection_name, ?logger: Logger?) -> void
+    def set: (String doc_key, Hash[untyped, untyped] data) -> void
+    def self.sanitize_key: (String key) -> String
+
+    private
+
+    def firestore: -> Google::Cloud::Firestore
+    def sanitized_collection_name: -> String
+    def sanitize_key: (String key) -> String
+    def full_doc_key: (String doc_key) -> String
+  end
+end

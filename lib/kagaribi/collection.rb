@@ -25,6 +25,7 @@ module Kagaribi
         end
     end
 
+    # Save document to collection
     # @param doc_key [String]
     # @param data [Hash]
     def set(doc_key, data)
@@ -32,6 +33,7 @@ module Kagaribi
       ref.set(data)
     end
 
+    # Get document from collection
     # @param doc_key [String]
     # @return [Hash<Symbol,Object>] return empty Hash if document isn't found
     def get(doc_key)

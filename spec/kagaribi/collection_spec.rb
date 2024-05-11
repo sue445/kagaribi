@@ -9,13 +9,57 @@ RSpec.describe Kagaribi::Collection do
     let(:doc_key) { "user1" }
     let(:data) { { name: "user1" } }
 
-    it "should be saved" do
+    context "document isn't exists" do
+      it "should be saved" do
+        subject
+
+        firestore = Google::Cloud::Firestore.new
+
+        actual = firestore.doc("test/#{doc_key}").get.data
+        expect(actual).to eq data
+      end
+    end
+
+    context "document is exists" do
+      let(:old_data) { { name: "user1", description: "desc1" } }
+
+      before do
+        firestore = Google::Cloud::Firestore.new
+
+        firestore.doc("test/#{doc_key}").set(old_data)
+      end
+
+      it "should be saved" do
+        subject
+
+        firestore = Google::Cloud::Firestore.new
+
+        actual = firestore.doc("test/#{doc_key}").get.data
+        expect(actual).to eq data
+      end
+    end
+  end
+
+  describe "#update" do
+    subject { collection.update(doc_key, data) }
+
+    let(:doc_key) { "user1" }
+    let(:old_data) { { name: "user1", description: "desc1" } }
+    let(:data) { { name: "user2", nickname: "nickname" } }
+
+    before do
+      firestore = Google::Cloud::Firestore.new
+
+      firestore.doc("test/#{doc_key}").set(old_data)
+    end
+
+    it "should be updated" do
       subject
 
       firestore = Google::Cloud::Firestore.new
 
       actual = firestore.doc("test/#{doc_key}").get.data
-      expect(actual).to eq data
+      expect(actual).to eq(name: "user2", nickname: "nickname", description: "desc1")
     end
   end
 

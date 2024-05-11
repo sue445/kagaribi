@@ -25,12 +25,22 @@ module Kagaribi
         end
     end
 
-    # Save document to collection
+    # Save a document to collection
+    # @note If a document with the same key exists, it is overwritten.
     # @param doc_key [String]
     # @param data [Hash]
     def set(doc_key, data)
       ref = firestore.doc(full_doc_key(doc_key))
       ref.set(data)
+    end
+
+    # Update a document that has already been saved
+    # @note If a document with the same key exists, it is merged.
+    # @param doc_key [String]
+    # @param data [Hash]
+    def update(doc_key, data)
+      ref = firestore.doc(full_doc_key(doc_key))
+      ref.update(data)
     end
 
     # Get document from collection

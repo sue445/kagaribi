@@ -79,6 +79,14 @@ jobs:
       - run: bundle exec rbs validate
       - run: bundle exec steep check
 
+      - name: Slack Notification (not success)
+        uses: act10ns/slack@v2
+        if: "! success()"
+        continue-on-error: true
+        with:
+          status: ${{ job.status }}
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+
   notify:
     needs:
       - test

@@ -71,6 +71,13 @@ module Kagaribi
       end
     end
 
+    # Delete document in collection
+    # @param doc_key [String]
+    def delete(doc_key)
+      ref = firestore.doc(full_doc_key(doc_key))
+      ref.delete
+    end
+
     # @param key [String]
     # @return [String]
     def self.sanitize_key(key)

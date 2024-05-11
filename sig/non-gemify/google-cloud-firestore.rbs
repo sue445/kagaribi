@@ -12,6 +12,7 @@ module Google
         def set: (Hash[untyped, untyped] data, ?untyped merge) -> void
         def update: (Hash[untyped, untyped] data, ?untyped merge) -> void
         def get: () -> DocumentSnapshot
+        def delete: (?exists: bool?, ?update_time: Time?) -> untyped
       end
 
       def self.new: (?database_id: string?) -> Firestore

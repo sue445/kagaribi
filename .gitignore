@@ -13,3 +13,4 @@
 Gemfile.lock
 /.gem_rbs_collection/
 /vendor/bundle/
+*.log

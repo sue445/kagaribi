@@ -13,7 +13,7 @@ module Google
         def get: () -> DocumentSnapshot
       end
 
-      def self.new: () -> Firestore
+      def self.new: (?database_id: string?) -> Firestore
 
       def doc: (String document_path) -> DocumentReference
     end

@@ -8,7 +8,7 @@ module Kagaribi
     attr_reader collection_name: String
     attr_reader logger: Logger
     def initialize: (String collection_name, ?logger: Logger?) -> void
-    def set: (String doc_key, Hash[untyped, untyped] params) -> void
+    def set: (String doc_key, Hash[untyped, untyped] data) -> void
     def self.sanitize_key: (String key) -> String
 
     private

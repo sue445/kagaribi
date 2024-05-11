@@ -24,10 +24,10 @@ module Kagaribi
     end
 
     # @param doc_key [String]
-    # @param params [Hash]
-    def set(doc_key, params)
+    # @param data [Hash]
+    def set(doc_key, data)
       ref = firestore.doc(full_doc_key(doc_key))
-      ref.set(params)
+      ref.set(data)
     end
 
     # @param key [String]

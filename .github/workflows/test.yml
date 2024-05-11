@@ -51,33 +51,31 @@ jobs:
           webhook-url: ${{ secrets.SLACK_WEBHOOK }}
           matrix: ${{ toJson(matrix) }}
 
-  # TODO: Do after
-  # rbs:
-  #   runs-on: ubuntu-latest
-  #
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #
-  #     - uses: ruby/setup-ruby@v1
-  #       with:
-  #         ruby-version: ruby
-  #         bundler-cache: true
-  #
-  #     - name: bundle update
-  #       run: |
-  #         set -xe
-  #         bundle config path vendor/bundle
-  #         bundle update --jobs $(nproc) --retry 3
-  #
-  #     - run: bundle exec rbs collection install
-  #     - run: bundle exec rbs validate --silent
-  #     - run: bundle exec steep check
+  rbs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby
+          bundler-cache: true
+
+      - name: bundle update
+        run: |
+          set -xe
+          bundle config path vendor/bundle
+          bundle update --jobs $(nproc) --retry 3
+
+      - run: bundle exec rbs collection install
+      - run: bundle exec rbs validate --silent
+      - run: bundle exec steep check
 
   notify:
     needs:
       - test
-      # TODO: Do after
-      # - rbs
+      - rbs
 
     runs-on: ubuntu-latest
 

@@ -5,15 +5,15 @@ module Kagaribi
     MAX_RETRY_COUNT = 5
 
     # @!attribute [r] collection_name
-    #   @return [String]
+    # @return [String]
     attr_reader :collection_name
 
     # @!attribute [r] database_id
-    #   @return [String,nil]
+    # @return [String,nil]
     attr_reader :database_id
 
     # @!attribute [r] logger
-    #   @return [Logger]
+    # @return [Logger]
     attr_reader :logger
 
     # @param collection_name [String]

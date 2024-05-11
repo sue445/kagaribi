@@ -4,5 +4,7 @@ module Kagaribi
   class Error < StandardError
   end
 
+  def self.collection: (String collection_name, ?database_id: string?, ?logger: Logger?) -> Collection
+
   # See the writing guide of rbs: https://github.com/ruby/rbs#guides
 end

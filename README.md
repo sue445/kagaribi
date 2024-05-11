@@ -6,11 +6,15 @@ Simple client for [Cloud Firestore](https://cloud.google.com/firestore)
 ## Installation
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add kagaribi
+```bash
+$ bundle add kagaribi
+```
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install kagaribi
+```bash
+$ gem install kagaribi
+```
 
 ## Usage
 ### Authentication

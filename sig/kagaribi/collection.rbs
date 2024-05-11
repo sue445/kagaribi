@@ -8,8 +8,10 @@ module Kagaribi
     @firestore: Google::Cloud::Firestore
 
     attr_reader collection_name: String
+    attr_reader database_id: String
     attr_reader logger: Logger
-    def initialize: (String collection_name, ?logger: Logger?) -> void
+
+    def initialize: (String collection_name, ?database_id: string?, ?logger: Logger?) -> void
     def set: (String doc_key, Hash[untyped, untyped] data) -> void
     def get: (String doc_key) -> Hash[Symbol, untyped]
     def self.sanitize_key: (String key) -> String

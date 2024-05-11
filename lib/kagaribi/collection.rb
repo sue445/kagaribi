@@ -8,14 +8,20 @@ module Kagaribi
     #   @return [String]
     attr_reader :collection_name
 
+    # @!attribute [r] database_id
+    #   @return [String,nil]
+    attr_reader :database_id
+
     # @!attribute [r] logger
     #   @return [Logger]
     attr_reader :logger
 
     # @param collection_name [String]
+    # @param database_id [String,nil] Identifier for a Firestore database. If not present, the default database of the project is used.
     # @param logger [Logger] default is `STDOUT` Logger
-    def initialize(collection_name, logger: nil)
+    def initialize(collection_name, database_id: nil, logger: nil)
       @collection_name = collection_name
+      @database_id = database_id
 
       @logger =
         if logger
@@ -64,7 +70,7 @@ module Kagaribi
 
     # @return [Google::Cloud::Firestore]
     def firestore
-      @firestore ||= Google::Cloud::Firestore.new
+      @firestore ||= Google::Cloud::Firestore.new(database_id: database_id)
     end
 
     # @return [String]

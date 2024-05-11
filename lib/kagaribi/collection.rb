@@ -76,15 +76,15 @@ module Kagaribi
     # @yield
     def with_retry(label)
       yield
-    rescue TypeError, GRPC::Unavailable, RuntimeError, Signet::AuthorizationError => e
-      raise e unless retryable_error?(e)
+    rescue TypeError, GRPC::Unavailable, RuntimeError, Signet::AuthorizationError => error
+      raise error unless retryable_error?(error)
 
       retry_count ||= 0
       retry_count += 1
 
-      raise e if retry_count > MAX_RETRY_COUNT
+      raise error if retry_count > MAX_RETRY_COUNT
 
-      logger.warn "[#{label}] collection_name=#{@collection_name}, retry_count=#{retry_count}, error=#{e}"
+      logger.warn "[#{label}] collection_name=#{@collection_name}, retry_count=#{retry_count}, error=#{error}"
       sleep 1
       retry
     end

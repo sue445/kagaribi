@@ -2,6 +2,7 @@
 
 RSpec.describe Kagaribi::Collection do
   let(:collection) { Kagaribi::Collection.new("test") }
+  let(:firestore) { Google::Cloud::Firestore.new }
 
   describe "#set" do
     subject { collection.set(doc_key, data) }
@@ -13,8 +14,6 @@ RSpec.describe Kagaribi::Collection do
       it "should be saved" do
         subject
 
-        firestore = Google::Cloud::Firestore.new
-
         actual = firestore.doc("test/#{doc_key}").get.data
         expect(actual).to eq data
       end
@@ -24,15 +23,11 @@ RSpec.describe Kagaribi::Collection do
       let(:old_data) { { name: "user1", description: "desc1" } }
 
       before do
-        firestore = Google::Cloud::Firestore.new
-
         firestore.doc("test/#{doc_key}").set(old_data)
       end
 
       it "should be saved" do
         subject
-
-        firestore = Google::Cloud::Firestore.new
 
         actual = firestore.doc("test/#{doc_key}").get.data
         expect(actual).to eq data
@@ -48,15 +43,11 @@ RSpec.describe Kagaribi::Collection do
     let(:data) { { name: "user2", nickname: "nickname" } }
 
     before do
-      firestore = Google::Cloud::Firestore.new
-
       firestore.doc("test/#{doc_key}").set(old_data)
     end
 
     it "should be updated" do
       subject
-
-      firestore = Google::Cloud::Firestore.new
 
       actual = firestore.doc("test/#{doc_key}").get.data
       expect(actual).to eq(name: "user2", nickname: "nickname", description: "desc1")
@@ -72,8 +63,6 @@ RSpec.describe Kagaribi::Collection do
       let(:data) { { name: "user1" } }
 
       before do
-        firestore = Google::Cloud::Firestore.new
-
         firestore.doc("test/#{doc_key}").set(data)
       end
 
@@ -94,8 +83,6 @@ RSpec.describe Kagaribi::Collection do
       let(:data) { { name: "user1" } }
 
       before do
-        firestore = Google::Cloud::Firestore.new
-
         firestore.doc("test/#{doc_key}").set(data)
       end
 
@@ -116,16 +103,24 @@ RSpec.describe Kagaribi::Collection do
       let(:data) { { name: "user1" } }
 
       before do
-        firestore = Google::Cloud::Firestore.new
-
         firestore.doc("test/#{doc_key}").set(data)
       end
 
-      it { expect { subject }.not_to raise_error }
+      it "should be deleted" do
+        subject
+
+        actual = firestore.doc("test/#{doc_key}").get.exists?
+        expect(actual).to eq false
+      end
     end
 
     context "doc isn't exists" do
-      it { expect { subject }.not_to raise_error }
+      it "should be deleted" do
+        subject
+
+        actual = firestore.doc("test/#{doc_key}").get.exists?
+        expect(actual).to eq false
+      end
     end
   end
 end

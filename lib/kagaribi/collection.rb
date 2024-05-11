@@ -33,7 +33,7 @@ module Kagaribi
     # @param key [String]
     # @return [String]
     def self.sanitize_key(key)
-      key&.tr("/", "-")
+      key.tr("/", "-")
     end
 
     private

@@ -5,6 +5,7 @@ module Google
     module Firestore
       class DocumentSnapshot
         def data: () -> Hash[Symbol, untyped]?
+        def exists?: () -> bool
       end
 
       class DocumentReference

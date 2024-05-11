@@ -84,4 +84,26 @@ RSpec.describe Kagaribi::Collection do
       it { should eq({}) }
     end
   end
+
+  describe "#exists?" do
+    subject { collection.exists?(doc_key) }
+
+    let(:doc_key) { "user1" }
+
+    context "doc is exists" do
+      let(:data) { { name: "user1" } }
+
+      before do
+        firestore = Google::Cloud::Firestore.new
+
+        firestore.doc("test/#{doc_key}").set(data)
+      end
+
+      it { should eq true }
+    end
+
+    context "doc isn't exists" do
+      it { should eq false }
+    end
+  end
 end

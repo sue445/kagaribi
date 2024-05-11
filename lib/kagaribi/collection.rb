@@ -60,6 +60,17 @@ module Kagaribi
       end
     end
 
+    # Whether document is exists in collection
+    # @param doc_key [String]
+    # @return [Boolean]
+    def exists?(doc_key)
+      with_retry("Kagaribi::Collection#exists?") do
+        ref = firestore.doc(full_doc_key(doc_key))
+        snap = ref.get
+        snap&.exists?
+      end
+    end
+
     # @param key [String]
     # @return [String]
     def self.sanitize_key(key)

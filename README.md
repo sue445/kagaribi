@@ -1,6 +1,7 @@
 # Kagaribi(篝火) :fire:
 Simple client for [Cloud Firestore](https://cloud.google.com/firestore)
 
+[![Gem Version](https://badge.fury.io/rb/kagaribi.svg)](https://badge.fury.io/rb/kagaribi)
 [![test](https://github.com/sue445/kagaribi/actions/workflows/test.yml/badge.svg)](https://github.com/sue445/kagaribi/actions/workflows/test.yml)
 
 ## Installation

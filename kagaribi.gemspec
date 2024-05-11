@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors = ["sue445"]
   spec.email = ["sue445@sue445.net"]
 
-  spec.summary = "Simple client Cloud Firestore"
-  spec.description = "Simple client Cloud Firestore"
+  spec.summary = "Simple client for Cloud Firestore"
+  spec.description = "Simple client for Cloud Firestore"
   spec.homepage = "https://github.com/sue445/kagaribi"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.0.0"

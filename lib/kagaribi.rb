@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "google/cloud/firestore"
+
 require_relative "kagaribi/version"
 
 module Kagaribi

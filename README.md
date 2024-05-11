@@ -23,6 +23,11 @@ Pass environment variables for Firestore authentication
 
 see https://cloud.google.com/ruby/docs/reference/google-cloud-firestore/latest/AUTHENTICATION
 
+### Requirements
+Firestore CRUD(Create/Read/Update/Delete) requires at least the following IAM Role
+
+* [Cloud Datastore User](https://cloud.google.com/iam/docs/understanding-roles#datastore.user) (`roles/datastore.user`)
+
 ### Simple usage
 ```ruby
 require "kagaribi"

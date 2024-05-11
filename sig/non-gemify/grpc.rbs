@@ -1,0 +1,9 @@
+# FIXME: This is workaround. Delete after being included in rbs_collection
+
+module GRPC
+  class BadStatus < StandardError
+  end
+
+  class Unavailable < BadStatus
+  end
+end

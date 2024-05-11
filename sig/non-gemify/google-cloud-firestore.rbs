@@ -9,6 +9,7 @@ module Google
 
       class DocumentReference
         def set: (Hash[untyped, untyped] data, ?untyped merge) -> void
+        def update: (Hash[untyped, untyped] data, ?untyped merge) -> void
         def get: () -> DocumentSnapshot
       end
 

@@ -7,4 +7,13 @@ task :spec do
   sh "firebase --project test emulators:exec --only firestore 'rspec'"
 end
 
-task default: :spec
+desc "Check rbs"
+task :rbs do
+  sh "rbs validate"
+  sh "steep check"
+end
+
+desc "Run all"
+task all: %i(spec rbs)
+
+task default: :all

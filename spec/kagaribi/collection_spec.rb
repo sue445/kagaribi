@@ -9,7 +9,14 @@ RSpec.describe Kagaribi::Collection do
     let(:doc_key) { "user1" }
     let(:data) { { name: "user1" } }
 
-    it { expect { subject }.not_to raise_error }
+    it "should be saved" do
+      subject
+
+      firestore = Google::Cloud::Firestore.new
+
+      actual = firestore.doc("test/#{doc_key}").get.data
+      expect(actual).to eq data
+    end
   end
 
   describe "#get" do

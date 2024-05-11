@@ -106,4 +106,26 @@ RSpec.describe Kagaribi::Collection do
       it { should eq false }
     end
   end
+
+  describe "#delete" do
+    subject { collection.delete(doc_key) }
+
+    let(:doc_key) { "user1" }
+
+    context "doc is exists" do
+      let(:data) { { name: "user1" } }
+
+      before do
+        firestore = Google::Cloud::Firestore.new
+
+        firestore.doc("test/#{doc_key}").set(data)
+      end
+
+      it { expect { subject }.not_to raise_error }
+    end
+
+    context "doc isn't exists" do
+      it { expect { subject }.not_to raise_error }
+    end
+  end
 end

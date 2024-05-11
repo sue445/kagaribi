@@ -15,6 +15,7 @@ module Kagaribi
     def set: (String doc_key, Hash[untyped, untyped] data) -> void
     def get: (String doc_key) -> Hash[Symbol, untyped]
     def exists?: (String doc_key) -> bool
+    def delete: (String doc_key) -> void
     def self.sanitize_key: (String key) -> String
 
     private

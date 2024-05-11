@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Kagaribi::Collection do
-  let(:collection) { Kagaribi::Collection.new("users") }
+  let(:collection) { Kagaribi::Collection.new("test") }
 
   describe "#set" do
     subject { collection.set(doc_key, params) }

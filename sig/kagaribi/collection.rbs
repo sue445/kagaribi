@@ -3,12 +3,15 @@
 # Classes
 module Kagaribi
   class Collection
+    MAX_RETRY_COUNT: Integer
+
     @firestore: Google::Cloud::Firestore
 
     attr_reader collection_name: String
     attr_reader logger: Logger
     def initialize: (String collection_name, ?logger: Logger?) -> void
     def set: (String doc_key, Hash[untyped, untyped] data) -> void
+    def get: (String doc_key) -> Hash[Symbol, untyped]
     def self.sanitize_key: (String key) -> String
 
     private
@@ -17,5 +20,7 @@ module Kagaribi
     def sanitized_collection_name: -> String
     def sanitize_key: (String key) -> String
     def full_doc_key: (String doc_key) -> String
+    def with_retry: (String label)  { -> untyped } -> untyped
+    def retryable_error?: (StandardError error) -> bool
   end
 end

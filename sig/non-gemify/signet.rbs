@@ -1,0 +1,6 @@
+# FIXME: This is workaround. Delete after being included in rbs_collection
+
+module Signet
+  class AuthorizationError < StandardError
+  end
+end

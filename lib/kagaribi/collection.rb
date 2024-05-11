@@ -33,7 +33,7 @@ module Kagaribi
     end
 
     # @param doc_key [String]
-    # @return [Hash] return empty Hash if document isn't found
+    # @return [Hash<Symbol,Object>] return empty Hash if document isn't found
     def get(doc_key)
       with_retry("Kagaribi::Collection#get") do
         ref = firestore.doc(full_doc_key(doc_key))

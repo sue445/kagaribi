@@ -34,7 +34,17 @@ require "kagaribi"
 
 collection = Kagaribi.collection("users")
 
+# or
+
+class UsersCollection < Kagaribi::Collection
+  def initialize
+    super("users")
+  end
+end
+collection = UsersCollection.new
+
 collection.set("sue445", name: "sue445", url: "https://github.com/sue445")
+#=> document is stored in a key named "users/sue445" to Firestore collection
 
 collection.get("sue445")
 #=> { name: "sue445", url: "https://github.com/sue445" }

@@ -1,6 +1,27 @@
 # frozen_string_literal: true
 
 module Kagaribi
+  # Manage a Firestore collection
+  #
+  # @example
+  #   require "kagaribi"
+  #
+  #   collection = Kagaribi.collection("users")
+  #
+  #   # or
+  #
+  #   class UsersCollection < Kagaribi::Collection
+  #     def initialize
+  #       super("users")
+  #     end
+  #   end
+  #   collection = UsersCollection.new
+  #
+  #   collection.set("sue445", name: "sue445", url: "https://github.com/sue445")
+  #   #=> document is stored in a key named "users/sue445" to Firestore collection
+  #
+  #   collection.get("sue445")
+  #   #=> { name: "sue445", url: "https://github.com/sue445" }
   class Collection
     MAX_RETRY_COUNT = 5
 
@@ -18,7 +39,7 @@ module Kagaribi
 
     # @param collection_name [String]
     # @param database_id [String,nil] Identifier for a Firestore database. If not present, the default database of the project is used.
-    # @param logger [Logger] default is `STDOUT` Logger
+    # @param logger [Logger,nil] default is `STDOUT` Logger
     def initialize(collection_name, database_id: nil, logger: nil)
       @collection_name = collection_name
       @database_id = database_id

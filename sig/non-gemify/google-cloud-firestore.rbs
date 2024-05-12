@@ -9,8 +9,8 @@ module Google
       end
 
       class DocumentReference
-        def set: (Hash[untyped, untyped] data, ?untyped merge) -> void
-        def update: (Hash[untyped, untyped] data, ?untyped merge) -> void
+        def set: (Hash[untyped, untyped] data, ?merge: untyped?) -> void
+        def update: (Hash[untyped, untyped] data, ?update_time: Time?) -> void
         def get: () -> DocumentSnapshot
         def delete: (?exists: bool?, ?update_time: Time?) -> untyped
       end

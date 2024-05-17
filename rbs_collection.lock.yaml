@@ -6,7 +6,7 @@ gems:
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: 7a105f52053ce1c708b605dfa9c1ab8473424036
+    revision: 438153d157e1e1ed6b640da973e33f333e57e6d9
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: fileutils
@@ -26,7 +26,7 @@ gems:
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: 7a105f52053ce1c708b605dfa9c1ab8473424036
+    revision: 438153d157e1e1ed6b640da973e33f333e57e6d9
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 gemfile_lock_path: Gemfile.lock

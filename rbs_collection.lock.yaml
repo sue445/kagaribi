@@ -1,8 +1,36 @@
 ---
 path: ".gem_rbs_collection"
 gems:
+- name: addressable
+  version: '2.8'
+  source:
+    type: git
+    name: ruby/gem_rbs_collection
+    revision: 438153d157e1e1ed6b640da973e33f333e57e6d9
+    remote: https://github.com/ruby/gem_rbs_collection.git
+    repo_dir: gems
+- name: base64
+  version: '0'
+  source:
+    type: stdlib
+- name: concurrent-ruby
+  version: '1.1'
+  source:
+    type: git
+    name: ruby/gem_rbs_collection
+    revision: 438153d157e1e1ed6b640da973e33f333e57e6d9
+    remote: https://github.com/ruby/gem_rbs_collection.git
+    repo_dir: gems
 - name: diff-lcs
   version: '1.5'
+  source:
+    type: git
+    name: ruby/gem_rbs_collection
+    revision: 438153d157e1e1ed6b640da973e33f333e57e6d9
+    remote: https://github.com/ruby/gem_rbs_collection.git
+    repo_dir: gems
+- name: faraday
+  version: '2.5'
   source:
     type: git
     name: ruby/gem_rbs_collection
@@ -13,11 +41,63 @@ gems:
   version: '0'
   source:
     type: stdlib
+- name: forwardable
+  version: '0'
+  source:
+    type: stdlib
+- name: google-cloud-firestore
+  version: '2.15'
+  source:
+    type: git
+    name: ruby/gem_rbs_collection
+    revision: 438153d157e1e1ed6b640da973e33f333e57e6d9
+    remote: https://github.com/ruby/gem_rbs_collection.git
+    repo_dir: gems
+- name: google-protobuf
+  version: '3.22'
+  source:
+    type: git
+    name: ruby/gem_rbs_collection
+    revision: 438153d157e1e1ed6b640da973e33f333e57e6d9
+    remote: https://github.com/ruby/gem_rbs_collection.git
+    repo_dir: gems
+- name: googleauth
+  version: '1.11'
+  source:
+    type: git
+    name: ruby/gem_rbs_collection
+    revision: 438153d157e1e1ed6b640da973e33f333e57e6d9
+    remote: https://github.com/ruby/gem_rbs_collection.git
+    repo_dir: gems
+- name: grpc
+  version: '1.63'
+  source:
+    type: git
+    name: ruby/gem_rbs_collection
+    revision: 438153d157e1e1ed6b640da973e33f333e57e6d9
+    remote: https://github.com/ruby/gem_rbs_collection.git
+    repo_dir: gems
+- name: jwt
+  version: '2.5'
+  source:
+    type: git
+    name: ruby/gem_rbs_collection
+    revision: 438153d157e1e1ed6b640da973e33f333e57e6d9
+    remote: https://github.com/ruby/gem_rbs_collection.git
+    repo_dir: gems
 - name: logger
   version: '0'
   source:
     type: stdlib
 - name: monitor
+  version: '0'
+  source:
+    type: stdlib
+- name: net-http
+  version: '0'
+  source:
+    type: stdlib
+- name: net-protocol
   version: '0'
   source:
     type: stdlib
@@ -29,4 +109,24 @@ gems:
     revision: 438153d157e1e1ed6b640da973e33f333e57e6d9
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
+- name: signet
+  version: '0.19'
+  source:
+    type: git
+    name: ruby/gem_rbs_collection
+    revision: 438153d157e1e1ed6b640da973e33f333e57e6d9
+    remote: https://github.com/ruby/gem_rbs_collection.git
+    repo_dir: gems
+- name: time
+  version: '0'
+  source:
+    type: stdlib
+- name: timeout
+  version: '0'
+  source:
+    type: stdlib
+- name: uri
+  version: '0'
+  source:
+    type: stdlib
 gemfile_lock_path: Gemfile.lock

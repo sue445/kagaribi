@@ -24,3 +24,6 @@ gems:
     ignore: true
 
   - name: logger
+  - name: google-cloud-firestore
+  - name: grpc
+  - name: signet

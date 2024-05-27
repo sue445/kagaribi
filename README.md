@@ -54,6 +54,14 @@ All methods are followings
 
 https://sue445.github.io/kagaribi/Kagaribi/Collection
 
+## Features
+### Auto retry
+The Cloud Firestore API is sometimes unstable. 
+
+Error, but retry the same operation and it may succeed.
+
+Therefore, if an error occurs in some operations (e.g. [Kagaribi::Collection#get](https://sue445.github.io/kagaribi/Kagaribi/Collection.html#get-instance_method)), the retry will be performed automatically.
+
 ## Development
 At first, install [Firebase Local Emulator Suite](https://firebase.google.com/docs/emulator-suite/install_and_configure)
 

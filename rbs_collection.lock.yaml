@@ -6,23 +6,31 @@ gems:
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: ccc14ab579825d8d1fcb4641cc74bfaaf31025a0
+    revision: 95d9b83e2727af43d6dea2ffb9e9d2d350425fe9
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: base64
-  version: '0'
+  version: '0.1'
   source:
-    type: stdlib
+    type: git
+    name: ruby/gem_rbs_collection
+    revision: 95d9b83e2727af43d6dea2ffb9e9d2d350425fe9
+    remote: https://github.com/ruby/gem_rbs_collection.git
+    repo_dir: gems
 - name: bigdecimal
-  version: '0'
+  version: '3.1'
   source:
-    type: stdlib
+    type: git
+    name: ruby/gem_rbs_collection
+    revision: 95d9b83e2727af43d6dea2ffb9e9d2d350425fe9
+    remote: https://github.com/ruby/gem_rbs_collection.git
+    repo_dir: gems
 - name: concurrent-ruby
   version: '1.1'
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: ccc14ab579825d8d1fcb4641cc74bfaaf31025a0
+    revision: 95d9b83e2727af43d6dea2ffb9e9d2d350425fe9
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: diff-lcs
@@ -30,7 +38,7 @@ gems:
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: ccc14ab579825d8d1fcb4641cc74bfaaf31025a0
+    revision: 95d9b83e2727af43d6dea2ffb9e9d2d350425fe9
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: faraday
@@ -38,7 +46,7 @@ gems:
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: ccc14ab579825d8d1fcb4641cc74bfaaf31025a0
+    revision: 95d9b83e2727af43d6dea2ffb9e9d2d350425fe9
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: fileutils
@@ -54,7 +62,7 @@ gems:
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: ccc14ab579825d8d1fcb4641cc74bfaaf31025a0
+    revision: 95d9b83e2727af43d6dea2ffb9e9d2d350425fe9
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: google-protobuf
@@ -62,7 +70,7 @@ gems:
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: ccc14ab579825d8d1fcb4641cc74bfaaf31025a0
+    revision: 95d9b83e2727af43d6dea2ffb9e9d2d350425fe9
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: googleauth
@@ -70,7 +78,7 @@ gems:
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: ccc14ab579825d8d1fcb4641cc74bfaaf31025a0
+    revision: 95d9b83e2727af43d6dea2ffb9e9d2d350425fe9
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: grpc
@@ -78,7 +86,7 @@ gems:
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: ccc14ab579825d8d1fcb4641cc74bfaaf31025a0
+    revision: 95d9b83e2727af43d6dea2ffb9e9d2d350425fe9
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: json
@@ -90,7 +98,7 @@ gems:
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: ccc14ab579825d8d1fcb4641cc74bfaaf31025a0
+    revision: 95d9b83e2727af43d6dea2ffb9e9d2d350425fe9
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: logger
@@ -114,7 +122,7 @@ gems:
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: ccc14ab579825d8d1fcb4641cc74bfaaf31025a0
+    revision: 95d9b83e2727af43d6dea2ffb9e9d2d350425fe9
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: signet
@@ -122,7 +130,7 @@ gems:
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: ccc14ab579825d8d1fcb4641cc74bfaaf31025a0
+    revision: 95d9b83e2727af43d6dea2ffb9e9d2d350425fe9
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: time

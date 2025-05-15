@@ -133,7 +133,7 @@ module Kagaribi
     # @yield
     def with_retry(label)
       yield
-    rescue TypeError, GRPC::Unavailable, RuntimeError, Signet::AuthorizationError => error
+    rescue TypeError, GRPC::Unavailable, RuntimeError, Signet::AuthorizationError, Google::Cloud::UnauthenticatedError => error
       raise error unless retryable_error?(error)
 
       retry_count ||= 0

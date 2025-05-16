@@ -25,5 +25,6 @@ gems:
 
   - name: logger
   - name: google-cloud-firestore
+  - name: google-cloud-errors
   - name: grpc
   - name: signet

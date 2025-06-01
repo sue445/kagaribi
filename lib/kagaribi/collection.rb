@@ -87,7 +87,7 @@ module Kagaribi
 
     # Whether document exists in collection
     # @param doc_key [String]
-    # @return [Boolean]
+    # @return [Boolean,nil]
     def exists?(doc_key)
       with_retry("Kagaribi::Collection#exists?") do
         ref = firestore.doc(full_doc_key(doc_key))

@@ -25,7 +25,7 @@ module Kagaribi
     def sanitized_collection_name: -> String
     def sanitize_key: (String key) -> String
     def full_doc_key: (String doc_key) -> String
-    def with_retry: (String label)  { -> untyped } -> untyped
+    def with_retry: [T] (String label)  { () -> T } -> T
     def retryable_error?: (StandardError error) -> bool
   end
 end

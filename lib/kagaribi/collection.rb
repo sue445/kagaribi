@@ -57,8 +57,10 @@ module Kagaribi
     # @param doc_key [String]
     # @param data [Hash]
     def set(doc_key, data)
-      ref = firestore.doc(full_doc_key(doc_key))
-      ref.set(data)
+      with_retry("Kagaribi::Collection#set") do
+        ref = firestore.doc(full_doc_key(doc_key))
+        ref.set(data)
+      end
     end
 
     # Update a document that has already been saved
@@ -66,8 +68,10 @@ module Kagaribi
     # @param doc_key [String]
     # @param data [Hash]
     def update(doc_key, data)
-      ref = firestore.doc(full_doc_key(doc_key))
-      ref.update(data)
+      with_retry("Kagaribi::Collection#update") do
+        ref = firestore.doc(full_doc_key(doc_key))
+        ref.update(data)
+      end
     end
 
     # Get document from collection
@@ -95,8 +99,10 @@ module Kagaribi
     # Delete document in collection
     # @param doc_key [String]
     def delete(doc_key)
-      ref = firestore.doc(full_doc_key(doc_key))
-      ref.delete
+      with_retry("Kagaribi::Collection#delete") do
+        ref = firestore.doc(full_doc_key(doc_key))
+        ref.delete
+      end
     end
 
     # @param key [String]

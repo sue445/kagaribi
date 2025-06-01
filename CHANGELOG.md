@@ -1,5 +1,11 @@
 ## [Unreleased]
-[full changelog](http://github.com/sue445/kagaribi/compare/v0.2.0...main)
+[full changelog](http://github.com/sue445/kagaribi/compare/v0.2.1...main)
+
+## [0.2.1](https://github.com/sue445/kagaribi/releases/tag/v0.2.1) - 2025-06-01
+[full changelog](http://github.com/sue445/kagaribi/compare/v0.2.0...v0.2.1)
+
+- Tweak `Kagaribi::Collection#exists?` return type
+  - https://github.com/sue445/kagaribi/pull/46
 
 ## [0.2.0](https://github.com/sue445/kagaribi/releases/tag/v0.2.0) - 2025-06-01
 [full changelog](http://github.com/sue445/kagaribi/compare/v0.1.2...v0.2.0)

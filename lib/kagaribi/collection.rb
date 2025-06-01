@@ -85,7 +85,7 @@ module Kagaribi
       end
     end
 
-    # Whether document is exists in collection
+    # Whether document exists in collection
     # @param doc_key [String]
     # @return [Boolean]
     def exists?(doc_key)

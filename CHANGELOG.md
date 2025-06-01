@@ -1,8 +1,14 @@
 ## [Unreleased]
-[full changelog](http://github.com/sue445/kagaribi/compare/v0.1.2...main)
+[full changelog](http://github.com/sue445/kagaribi/compare/v0.2.0...main)
+
+## [0.2.0](https://github.com/sue445/kagaribi/releases/tag/v0.2.0) - 2025-06-01
+[full changelog](http://github.com/sue445/kagaribi/compare/v0.1.2...v0.2.0)
+
+- Automatic retry in `Kagaribi::Collection#set`, `Kagaribi::Collection#update` and `Kagaribi::Collection#delete` error
+  - https://github.com/sue445/kagaribi/pull/44
 
 ## [0.1.2](https://github.com/sue445/kagaribi/releases/tag/v0.1.2) - 2025-05-16
-[full changelog](http://github.com/sue445/kagaribi/compare/v0.1.2...v0.1.2)
+[full changelog](http://github.com/sue445/kagaribi/compare/v0.1.1...v0.1.2)
 
 - Allow retries on `Google::Cloud::UnauthenticatedError`
   - https://github.com/sue445/kagaribi/pull/40

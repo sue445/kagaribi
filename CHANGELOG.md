@@ -1,5 +1,11 @@
 ## [Unreleased]
-[full changelog](http://github.com/sue445/kagaribi/compare/v0.2.1...main)
+[full changelog](http://github.com/sue445/kagaribi/compare/v0.2.2...main)
+
+## [0.2.2](https://github.com/sue445/kagaribi/releases/tag/v0.2.2) - 2025-11-29
+[full changelog](http://github.com/sue445/kagaribi/compare/v0.2.1...v0.2.2)
+
+* Release gem from GitHub Actions
+  * https://github.com/sue445/kagaribi/pull/57
 
 ## [0.2.1](https://github.com/sue445/kagaribi/releases/tag/v0.2.1) - 2025-06-01
 [full changelog](http://github.com/sue445/kagaribi/compare/v0.2.0...v0.2.1)

@@ -14,3 +14,4 @@ jobs:
       app-id: ${{ secrets.GH_APP_ID }}
       private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
       slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+      auto-merge: true

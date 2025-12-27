@@ -45,7 +45,7 @@ jobs:
         run: |
           set -xe
           bundle config path vendor/bundle
-          bundle update --jobs $(nproc) --retry 3
+          bundle update --all --jobs $(nproc) --retry 3
 
       - name: Install firebase emulator
         run: |
@@ -80,7 +80,7 @@ jobs:
         run: |
           set -xe
           bundle config path vendor/bundle
-          bundle update --jobs $(nproc) --retry 3
+          bundle update --all --jobs $(nproc) --retry 3
 
       - run: bundle exec rbs collection install
       - run: bundle exec rbs validate

@@ -36,6 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "google-cloud-firestore"
 
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "rdoc"
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "steep"
   spec.add_development_dependency "yard"

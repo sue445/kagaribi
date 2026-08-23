@@ -1,5 +1,11 @@
 ## [Unreleased]
-[full changelog](http://github.com/sue445/kagaribi/compare/v0.2.2...main)
+[full changelog](http://github.com/sue445/kagaribi/compare/v0.2.3...main)
+
+## [0.2.3](https://github.com/sue445/kagaribi/releases/tag/v0.2.3) - 2026-08-23
+[full changelog](http://github.com/sue445/kagaribi/compare/v0.2.2...v0.2.3)
+
+* Migrate release_gem workflow to sue445/workflows (Also testing the gem release)
+  * https://github.com/sue445/kagaribi/pull/115
 
 ## [0.2.2](https://github.com/sue445/kagaribi/releases/tag/v0.2.2) - 2025-11-29
 [full changelog](http://github.com/sue445/kagaribi/compare/v0.2.1...v0.2.2)

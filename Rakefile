@@ -4,7 +4,9 @@ require "bundler/gem_tasks"
 
 desc "Run spec"
 task :spec do
-  sh "firebase --project test emulators:exec --only firestore 'rspec'"
+  args = []
+  args << "--debug" if ENV["FIREBASE_DEBUG"]
+  sh "firebase #{args.join(" ")} --project test emulators:exec --only firestore 'rspec'"
 end
 
 desc "Check rbs"

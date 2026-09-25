@@ -16,6 +16,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      FIREBASE_TOOLS_VERSION: "v15.30.0"
+
     strategy:
       fail-fast: false
 
@@ -50,7 +53,7 @@ jobs:
       - name: Install firebase emulator
         run: |
           set -xe
-          sudo wget https://firebase.tools/bin/linux/latest -O /usr/local/bin/firebase --quiet
+          sudo wget https://firebase.tools/bin/linux/${FIREBASE_TOOLS_VERSION} -O /usr/local/bin/firebase --quiet
           sudo chmod 755 /usr/local/bin/firebase
           firebase setup:emulators:firestore
 
